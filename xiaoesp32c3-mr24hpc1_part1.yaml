@@ -1,0 +1,21 @@
+//part 1:
+esphome:
+  name: <your device name>    //Please note that your device name is retained here
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.mcu: esp32c3
+  includes:
+  - R24dvd.h
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: DEBUG
+
+    
