@@ -1,4 +1,4 @@
-//part 1:
+# part 1:
 esphome:
   name: <your device name>    //Please note that your device name is retained here
   platformio_options:
@@ -37,7 +37,7 @@ wifi:
     password: "<your password>"
 *****/
 
-//part 3:
+# part 3:
 uart:
   id: uart_bus
   baud_rate:  115200
