@@ -1,4 +1,4 @@
-//part 3:
+#part 3:
 uart:
   id: uart_bus
   baud_rate:  115200
