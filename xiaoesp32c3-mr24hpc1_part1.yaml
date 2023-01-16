@@ -1,4 +1,4 @@
-//part 1:
+# part 1:
 esphome:
   name: <your device name>    //Please note that your device name is retained here
   platformio_options:
