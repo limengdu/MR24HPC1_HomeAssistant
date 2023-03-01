@@ -44,11 +44,11 @@ enum {
     STANDARD_FUNCTION_MAX,
     //Open function
     CUSTOM_FUNCTION_QUERY_RADAR_OUITPUT_INFORMATION_SWITCH,
-    // CUSTOM_FUNCTION_QUERY_SPATIAL_STATIC_VALUE,
-    // CUSTOM_FUNCTION_QUERY_SPATIAL_MOTION_AMPLITUDE,
+    CUSTOM_FUNCTION_QUERY_SPATIAL_STATIC_VALUE,
+    CUSTOM_FUNCTION_QUERY_SPATIAL_MOTION_AMPLITUDE,
     CUSTOM_FUNCTION_QUERY_PRESENCE_OF_DETECTION_RANGE,
-    // CUSTOM_FUNCTION_QUERY_DISTANCE_OF_MOVING_OBJECT,
-    // CUSTOM_FUNCTION_QUERY_TARGET_MOVEMENT_SPEED,
+    CUSTOM_FUNCTION_QUERY_DISTANCE_OF_MOVING_OBJECT,
+    CUSTOM_FUNCTION_QUERY_TARGET_MOVEMENT_SPEED,
     CUSTOM_FUNCTION_QUERY_JUDGMENT_THRESHOLD_EXISTS,
     CUSTOM_FUNCTION_QUERY_MOTION_AMPLITUDE_TRIGGER_THRESHOLD,
     CUSTOM_FUNCTION_QUERY_PRESENCE_OF_PERCEPTION_BOUNDARY,
@@ -213,6 +213,7 @@ void UartReadLineSensor::setup() {
 
 void UartReadLineSensor::loop() {
     uint8_t byte;
+    sleep(0.2);
     while (this->available()) {
         this->read_byte(&byte);
         this->R24_split_data_frame(byte);
@@ -275,21 +276,21 @@ void UartReadLineSensor::loop() {
             case CUSTOM_FUNCTION_QUERY_RADAR_OUITPUT_INFORMATION_SWITCH:
                 this->get_radar_output_information_switch();
                 break;
-            // case CUSTOM_FUNCTION_QUERY_SPATIAL_STATIC_VALUE:
-            //     this->get_spatial_static_value();
-            //     break;
-            // case CUSTOM_FUNCTION_QUERY_SPATIAL_MOTION_AMPLITUDE:
-            //     this->get_spatial_motion_amplitude();
-            //     break;
+            case CUSTOM_FUNCTION_QUERY_SPATIAL_STATIC_VALUE:
+                this->get_spatial_static_value();
+                break;
+            case CUSTOM_FUNCTION_QUERY_SPATIAL_MOTION_AMPLITUDE:
+                this->get_spatial_motion_amplitude();
+                break;
             case CUSTOM_FUNCTION_QUERY_PRESENCE_OF_DETECTION_RANGE:
                 this->get_presence_of_detection_range();
                 break;
-            // case CUSTOM_FUNCTION_QUERY_DISTANCE_OF_MOVING_OBJECT:
-            //     this->get_distance_of_moving_object();
-            //     break;
-            // case CUSTOM_FUNCTION_QUERY_TARGET_MOVEMENT_SPEED:
-            //     this->get_target_movement_speed();
-            //     break;
+            case CUSTOM_FUNCTION_QUERY_DISTANCE_OF_MOVING_OBJECT:
+                this->get_distance_of_moving_object();
+                break;
+            case CUSTOM_FUNCTION_QUERY_TARGET_MOVEMENT_SPEED:
+                this->get_target_movement_speed();
+                break;
             case CUSTOM_FUNCTION_QUERY_JUDGMENT_THRESHOLD_EXISTS:
                 this->get_judgment_threshold_exists();
                 break;
@@ -650,7 +651,7 @@ void UartReadLineSensor::R24_split_data_frame(uint8_t value)
                 sg_frame_buf[sg_frame_len++] = FRAME_TAIL2_VALUE;
                 memcpy(sg_frame_prase_buf, sg_frame_buf, sg_frame_len);
                 if (get_frame_check_status(sg_frame_prase_buf, sg_frame_len)) {
-                    // show_frame_data(sg_frame_prase_buf, sg_frame_len);
+                    show_frame_data(sg_frame_prase_buf, sg_frame_len);
                     this->R24_parse_data_frame(sg_frame_prase_buf, sg_frame_len);
 
                 } else {

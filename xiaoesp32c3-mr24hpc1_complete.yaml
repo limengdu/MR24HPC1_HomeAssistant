@@ -355,25 +355,25 @@ text_sensor:
   id: custom_presence_of_detection
   icon: mdi:signal-distance-variant
  
-# - platform: template
-#   name: "Custom Motion distance"
-#   id: custom_motion_distance
+- platform: template
+  name: "Custom Motion distance"
+  id: custom_motion_distance
  
-# - platform: template
-#   name: "Custom Static distance"
-#   id: custom_static_distance
+- platform: template
+  name: "Custom Static distance"
+  id: custom_static_distance
  
-# - platform: template
-#   name: "Custom Spatial static value"
-#   id: custom_spatial_static_value
+- platform: template
+  name: "Custom Spatial static value"
+  id: custom_spatial_static_value
  
-# - platform: template
-#   name: "Custom Spatial motion value"
-#   id: custom_spatial_motion_value
+- platform: template
+  name: "Custom Spatial motion value"
+  id: custom_spatial_motion_value
  
-# - platform: template
-#   name: "Custom Motion speed"
-#   id: custom_motion_speed
+- platform: template
+  name: "Custom Motion speed"
+  id: custom_motion_speed
  
  
 button:
