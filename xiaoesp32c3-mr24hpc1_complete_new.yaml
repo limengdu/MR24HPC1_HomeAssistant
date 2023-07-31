@@ -5,7 +5,7 @@ esphome:
     board_build.flash_mode: dio
     board_build.mcu: esp32c3
   includes:
-  - R24dvd_old.h
+  - R24dvd_new.h
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -43,7 +43,7 @@ uart:
   baud_rate:  115200
   rx_pin: 5
   tx_pin: 4
- 
+
 select:
   - platform: template
     name: "Standard Scene mode"
@@ -460,5 +460,4 @@ sensor:
   name: "Custom Motion speed"
   id: custom_motion_speed
   icon: mdi:run-fast
-
-    
+ 
