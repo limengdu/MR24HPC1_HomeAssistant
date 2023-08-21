@@ -67,7 +67,7 @@ enum
     OUTPUT_SWTICH_OFF,
 };
 static char s_heartbeat_str[2][20] = {"Abnormal", "Normal"};
-static char s_scene_str[5][20] = {"0", "Living room", "Area detection", "Washroom", "Bedroom"};
+static char s_scene_str[5][20] = {"None", "Living Room", "Area Detection", "Washroom", "Bedroom"};
 static char s_someoneExists_str[2][20] = {"Nobody", "Someone"};
 static char s_motion_status_str[3][20] = {"None", "Motionless", "Active"};
 static char s_keep_away_str[3][20] = {"None", "Close", "Away"};
