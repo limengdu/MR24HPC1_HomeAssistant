@@ -1,6 +1,7 @@
 # XIAO ESP32C3 accesses Home Assistant via ESPHome service
 
-<div align=center><img width = 700 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/78.jpg"/></div>
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/78.jpg" style={{width:700, height:'auto'}}/></div>
+
 
 This article will guide you through the installation of the ESPHome service in your own Home Assistant environment. By using the WiFi function of the XIAO ESP32C3, you will be able to connect your XIAO to the Home Assistant as part of your home terminal in a very smooth way.
 
@@ -9,22 +10,34 @@ In addition, we will build a Home Assistant with human presence detection in com
 
 ## Getting Started
 
+:::tip
+As of 31 July 2023, the previous issue that would cause the radar to completely die has now been fixed, so please update the library files and configurator for this tutorial species to work properly.
+:::
+
 If you want to follow this tutorial through everything, you will need to prepare the following.
 
 <table align="center">
-	<tr>
-	    <th>XIAO ESP32C3</th>
-        <th>24GHz mmWave Human Static<br>Presence Module Lite</th>
-	</tr>
-    <tr>
-        <td><div align=center><img width = 100 src="https://files.seeedstudio.com/wiki/XIAO_WiFi/board-pic.png"/></div></td>
-        <td><div align=center><img width = 210 src="https://files.seeedstudio.com/wiki/Radar_MR24HPCB1/0.jpg"/></div></td>
+  <tbody><tr>
+      <th>XIAO ESP32C3</th>
+      <th>24GHz mmWave Human Static<br />Presence Module Lite</th>
     </tr>
-	<tr>
-        <td align = "center"><a href="https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html">Get One Now</a></td>
-        <td align = "center"><a href="https://www.seeedstudio.com/24GHz-mmWave-Sensor-Human-Static-Presence-Module-Lite-p-5524.html">Get One Now</a></td>
-	</tr>
-</table>
+    <tr>
+      <td><div align="center"><img src="https://files.seeedstudio.com/wiki/XIAO_WiFi/board-pic.png" style={{width:100, height:'auto'}}/></div></td>
+      <td><div align="center"><img src="https://files.seeedstudio.com/wiki/Radar_MR24HPCB1/0.jpg" style={{width:210, height:'auto'}}/></div></td>
+    </tr>
+    <tr>
+        <td align="center"><div class="get_one_now_container" style={{textAlign: 'center'}}>
+            <a class="get_one_now_item" href="https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html">
+            <strong><span><font color={'FFFFFF'} size={"4"}> Get One Now 🖱️</font></span></strong>
+            </a>
+        </div></td>
+        <td align="center"><div class="get_one_now_container" style={{textAlign: 'center'}}>
+            <a class="get_one_now_item" href="https://www.seeedstudio.com/24GHz-mmWave-Sensor-Human-Static-Presence-Module-Lite-p-5524.html">
+            <strong><span><font color={'FFFFFF'} size={"4"}> Get One Now 🖱️</font></span></strong>
+            </a>
+        </div></td>
+    </tr>
+  </tbody></table>
 
 The ultimate goal of this project is to deploy 24GHz mmWave Human Static Presence Module Lite in the Home Assistant.
 
@@ -47,7 +60,7 @@ In this routine, we will not expand on how to install the Home Assistant environ
 
 If you wish to learn how to install Home Assistant, then you can refer to the [official tutorial](https://www.home-assistant.io/installation/). We strongly recommend that you install Home Assistant using an x86 device as this is the most user friendly way for you to install Home Assistant with Supervised.
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/77.png"/></div>
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/77.png" /></div>
 
 According to the table above, it is most appropriate to install **Home Assistant OS** and **Home Assistant Supervised**, which will take a lot of hassle off your hands. If you are running Home Assistant on Docker with OpenWRT (e.g. using LinkStar H68K), please don't worry, we will also provide you with a detailed reference on how to do this.
 
@@ -65,11 +78,12 @@ We have also written how to install Home Assistant for some of Seeed Studio prod
 
 If you have the Home Assistant OS installed, it has an Add-on Store, which makes it much easier to install ESPHome.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/79.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/79.png" /></div>
+
 
 In the Add-on Store, you can search for and install ESPHome.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/80.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/80.png" /></div>
 
 - **Scenario 2: ESPHome installed under Home Assistant under OpenWRT Docker/Docker (without Add-on Store)**
 
@@ -81,7 +95,8 @@ We need to download the ESPHome image.
 esphome/esphome:latest
 ```
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/17.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/17.png" /></div>
+
 
 On the page where the container is created, we need to make some simple settings.
 - Container Name: your container name
@@ -89,21 +104,25 @@ On the page where the container is created, we need to make some simple settings
 - Network: choose **host** mode
 - Environment Variables(-e): your environment variable
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/18.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/18.png" /></div>
+
 
 Once you have filled in the above, save and apply. You will see that the Container has been created. You also need to start it.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/19.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/19.png" /></div>
+
 
 In order to achieve the same effect as downloading ESPHome in Home Assistant, we need to modify the configuration file under Home Assistant.
 
 Go to the Home Assistant Container.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/55.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/55.png" /></div>
+
 
 We go to the terminal in Home Assistant.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/56.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/56.png" /></div>
+
 
 Enter the following command in the terminal.
 
@@ -126,7 +145,7 @@ Exit the docker container by type ```exit``` in the Home Assistant Container she
 
 Create a new browser page, enter address `http://homeassistant:8123/` and enter your Home Assistant account and you will see ESPHome appear in the toolbar on the left.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/57.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/57.png" /></div>
 
 ## Configure the XIAO ESP32C3 and ESPHome connection
 
@@ -136,36 +155,39 @@ The goal of our tutorial is to be able to see the data information of the 24GHz 
 
 Connect the device to the computer through the main board. The wiring diagram is shown in the table below.
 
+<div class="table-center">
 <table align="center">
+  <tbody>
     <tr>
-	    <td colspan="4"><div align=center><img width = 700 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/62.jpg"/></div></td></td>
-	</tr>
-	<tr>
-	    <td align="center">XIAO ESP32C3</td>
-	    <td align="center"></td>
-        <td align="center">24GHz mmWave Human Static<br>Presence Module Lite</td>
-	</tr>
-	<tr>
-	    <td align="center">5V</td>
-	    <td align="center">--></td>
-        <td align="center">5V</td>
-	</tr>
-	<tr>
-	    <td align="center">GND</td>
-	    <td align="center">--></td>
-        <td align="center">GND</td>
-	</tr>
+      <td colspan="3"><div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/esphome-pinconnect.png" /></div></td>
+    </tr>
     <tr>
-	    <td align="center">RX</td>
-	    <td align="center">--></td>
-        <td align="center">D6</td>
-	</tr>
+      <td align="center">XIAO ESP32C3</td>
+      <td align="center" />
+      <td align="center">24GHz mmWave Human Static<br />Presence Module Lite</td>
+    </tr>
     <tr>
-	    <td align="center">TX</td>
-	    <td align="center">--></td>
-        <td align="center">D7</td>
-	</tr>
-</table>
+      <td align="center">5V</td>
+      <td align="center">--&gt;</td>
+      <td align="center">5V</td>
+    </tr>
+    <tr>
+      <td align="center">GND</td>
+      <td align="center">--&gt;</td>
+      <td align="center">GND</td>
+    </tr>
+    <tr>
+      <td align="center">D2</td>
+      <td align="center">--&gt;</td>
+      <td align="center">RX</td>
+    </tr>
+    <tr>
+      <td align="center">D3</td>
+      <td align="center">--&gt;</td>
+      <td align="center">TX</td>
+    </tr>
+  </tbody></table>
+</div>
 
 ### Step 3. Download the sensor library to your Home Assistant
 
@@ -175,21 +197,24 @@ In order to download some files from Home Assistant, we need to use the Terminal
 
 Please ensure that you have enabled Advanced Mode.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/81.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/81.png" /></div>
+
 
 Then you can search for the add-on **Terminal & SSH** in the Add-on Store, please install it.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/82.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/82.png" /></div>
+
 
 Once the installation is complete, you will be able to see the Terminal tool in the left-hand toolbar, which you can access by clicking on it in the bash window.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/83.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/83.png" /></div>
+
 
 Enter the following command in the terminal.
 
 ```
 cd /config/esphome/
-curl -o R24dvd.h https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/R24dvd.h
+curl -o R24dvd_new.h https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/R24dvd_new.h
 ```
 
 In this way, you have installed the dependencies needed for the sensors under the specified path in Home Assistant.
@@ -199,22 +224,25 @@ In this way, you have installed the dependencies needed for the sensors under th
 
 Click on the ESPHome Container.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/48.png"/></div>
+<div align="center"><img width="{800}" src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/48.png" /></div>
+
+
 
 We go to the terminal in ESPHome.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/49.png"/></div>
+<div align="center"><img width="{800}" src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/49.png" /></div>
+
+
 
 Enter the following command in the terminal.
 
 ```
-curl -o R24dvd.h https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/R24dvd.h
+curl -o R24dvd_new.h https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/R24dvd_new.h
 ```
 
 Wait a few moments and the sensor library will be downloaded to the ESPHome Container root directory.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/50.png"/></div>
-
+<div align="center"><img width="{800}" src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/50.png" /></div>
 
 ### Step 4. Keep the XIAO ESP32C3 and Home Assistant on the same LAN
 
@@ -224,7 +252,8 @@ I will use the LinkStar H68K as an example below. My aim is to get the XIAO conn
 
 In the **Network** tab in OpenWRT, select **Wireless** --> **ADD**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/58.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/58.png" /></div>
+
 
 For **Transmit Power** in **Device Configuration**, select **auto**.
 
@@ -235,42 +264,47 @@ For the **Interface Configuration** settings, please fill in the following instr
     - ESSID: Enter the name of your WiFi, please try not to have spaces or special characters.
     - Network: check **lan**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/23.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/23.png" /></div>
+
 
 - Wireless Security
     - Encryption: WPA2-PSK
     - Key: Enter the WiFi password you wish to set.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/24.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/24.png" /></div>
+
 
 
 Once you have filled in the above information, click **Save and Apply** in the bottom right hand corner and wait a few moments for LinkStar to open a hotspot.
 
 When no device is connected to this hotspot, it will be displayed as no signal.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/60.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/60.png" /></div>
+
 
 All things considered, let's return to the Home Assistant page.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/61.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/61.png" /></div>
+
 
 Click on the **NEW DEVICE**. Then click on **Continue**.
 
 Under the new pop-up window, please enter the name of the application you wish to set up, as well as the name and password of the hotspot you have set up in LinkStar (Or your own WiFi). Make sure that the XIAO ESP32C3 and Home Assistant on the **same LAN**.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/25.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/25.png" /></div>
+
 
 Then click **Next**.
 
 In the device type, please select **ESP32-C3**.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/26.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/26.png" /></div>
 
 Then click **Next**.
 
 <span id="jump1">Click on the **Encryption key** and save it in a secure location, we will use this key in a later step.</span>
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/27.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/27.png" /></div>
 
 Then click **SKIP**.
 
@@ -278,23 +312,492 @@ Then click **SKIP**.
 
 Then, we click on the device tab we just created, with the **EDIT** button in the bottom left corner.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/28.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/28.png" /></div>
+
 
 Please note that we need to make changes to this yaml file. We have divided the content to be modified into two main parts, corresponding to one and two in the diagram below.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/62.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/62.png" /></div>
+
 
 - In the **①** of the content, please do not change the device name except the one you have configured, please refer to the code below for the rest of the content.
 
-<p style=":center"><a href="https://github.com/limengdu/MR24HPC1_HomeAssistant/blob/main/xiaoesp32c3-mr24hpc1_part1.yaml" target="_blank"><div align=center><img width = 300 src="https://files.seeedstudio.com/wiki/seeed_logo/github.png" /></div></a></p>
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/limengdu/MR24HPC1_HomeAssistant/blob/main/xiaoesp32c3-mr24hpc1_part1_new.yaml">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download the Code</font></span></strong> <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div>
+
+<br />
+
+```
+# part 1:
+esphome:
+  name: <your device name>    //Please note that your device name is retained here
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.mcu: esp32c3
+  includes:
+  - R24dvd_new.h
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+  hardware_uart: USB_SERIAL_JTAG
+  level: DEBUG
+```
+
 
 - In the **②** of the content, delete the words "captive_portal:" and replace with the following.
 
-<p style=":center"><a href="https://github.com/limengdu/MR24HPC1_HomeAssistant/blob/main/xiaoesp32c3-mr24hpc1_part2.yaml" target="_blank"><div align=center><img width = 300 src="https://files.seeedstudio.com/wiki/seeed_logo/github.png" /></div></a></p>
+<div class="github_container" style={{textAlign: 'center'}}>
+    <a class="github_item" href="https://github.com/limengdu/MR24HPC1_HomeAssistant/blob/main/xiaoesp32c3-mr24hpc1_part2_new.yaml">
+    <strong><span><font color={'FFFFFF'} size={"4"}> Download the Code</font></span></strong> <svg aria-hidden="true" focusable="false" role="img" className="mr-2" viewBox="-3 10 9 1" width={16} height={16} fill="currentColor" style={{textAlign: 'center', display: 'inline-block', userSelect: 'none', verticalAlign: 'text-bottom', overflow: 'visible'}}><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" /></svg>
+    </a>
+</div>
+
+<br />
+
+<details>
+
+<summary>Click here to preview the full code</summary>
+
+```
+uart:
+  id: uart_bus
+  baud_rate:  115200
+  rx_pin: 5
+  tx_pin: 4
+
+select:
+  - platform: template
+    name: "Standard Scene mode"
+    id: scene_mode
+    icon: mdi:hoop-house
+    optimistic: true
+    options:
+      - "Living room"
+      - "Area detection"
+      - "Washroom"
+      - "Bedroom"
+    initial_option: "Living room"
+    set_action:
+      - logger.log:
+            format: "set action option: %s"
+            args: ["x.c_str()"]
+      - uart.write: !lambda
+                  auto index = id(scene_mode).index_of(x);
+                  uint8_t value = (uint8_t)index.value() + 1;
+                  uint8_t crc = value + 0xB9;
+                  return {0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43};
+
+  - platform: template
+    name: "Standard unmanned time"
+    id: unmanned_time
+    icon: mdi:timeline-clock
+    optimistic: true
+    options:
+      - "None"
+      - "10s"
+      - "30s"
+      - "1min"
+      - "2min" 
+      - "5min" 
+      - "10min"
+      - "30min"
+      - "1hour"
+    initial_option: "None"
+    set_action:
+      - logger.log:
+            format: "Chosen option: %s"
+            args: ["x.c_str()"]
+      - uart.write: !lambda
+                  auto index = id(unmanned_time).index_of(x);
+                  uint8_t value = (uint8_t)index.value();
+                  uint8_t crc = value + 0x37;
+                  return {0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Presence of perception boundary"
+    id: custom_presence_of_perception_boundary
+    optimistic: true
+    options:
+      - "0.5m"
+      - "1.0m"
+      - "1.5m"
+      - "2.0m" 
+      - "2.5m" 
+      - "3.0m"
+      - "3.5m"
+      - "4.0m"
+      - "4.5m"
+      - "5.0m"
+    set_action:
+      - logger.log:
+            format: "Chosen option: %s"
+            args: ["x.c_str()"]
+      - uart.write: !lambda
+                  auto index = id(unmanned_time).index_of(x);
+                  uint8_t value = (uint8_t)index.value() + 1;
+                  uint8_t crc = value + 0xBF;
+                  return {0x53,0x59,0x08,0x0a,0x00,0x01,value,crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Motion trigger boundary"
+    id: custom_motion_trigger_boundary
+    optimistic: true
+    options:
+      - "0.5m"
+      - "1.0m"
+      - "1.5m"
+      - "2.0m" 
+      - "2.5m" 
+      - "3.0m"
+      - "3.5m"
+      - "4.0m"
+      - "4.5m"
+      - "5.0m"
+    set_action:
+      - logger.log:
+            format: "Chosen option: %s"
+            args: ["x.c_str()"]
+      - uart.write: !lambda
+                  auto index = id(unmanned_time).index_of(x);
+                  uint8_t value = (uint8_t)index.value() + 1;
+                  uint8_t crc = value + 0xC0;
+                  return {0x53,0x59,0x08,0x0b,0x00,0x01,value,crc,0x54,0x43};
+ 
+number:
+  - platform: template
+    id: sensitivity
+    name: "Standard sensitivity"
+    icon: mdi:archive-check-outline
+    min_value: 0
+    max_value: 3
+    optimistic: false
+    step: 1
+    update_interval: 2s
+    set_action:
+      - uart.write: !lambda
+                    uint8_t crc = x + 0xBA;
+                    return {0x53,0x59,0x05,0x08,0x00,0x01,(uint8_t)x,crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Standard Maximum detectable range of moving target"
+    id: moving_target_detection_max_distance
+    icon: mdi:map-marker-path
+    unit_of_measurement: "cm"
+    min_value: 0
+    max_value: 65536
+    step: 500
+    set_action:
+      - uart.write: !lambda
+                    int h_num = (int)x >> 8;
+                    int l_num = (int)x & 0xff;
+                    int crc = 0xB6 + h_num + l_num;
+                    return {0x53,0x59,0x07,0x01,0x00,0x02,(uint8_t)(h_num),(uint8_t)(l_num),(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Standard Maximum detectable range of stationary target"
+    id: static_target_detection_max_distance
+    icon: mdi:map-marker-path
+    unit_of_measurement: cm
+    min_value: 0
+    max_value: 65536
+    step: 500
+    set_action:
+      - uart.write: !lambda
+                    int h_num = (int)x >> 8;
+                    int l_num = (int)x & 0xff;
+                    int crc = 0xB9 + h_num + l_num;
+                    return {0x53,0x59,0x07,0x04,0x00,0x02,(uint8_t)(h_num),(uint8_t)(l_num),(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Judgment threshold exists"
+    id: custom_judgment_threshold_exists
+    min_value: 0
+    max_value: 250
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xBD + (int)x;
+                    return {0x53,0x59,0x08,0x08,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Motion amplitude trigger threshold"
+    id: custom_motion_amplitude_trigger_threshold
+    min_value: 0
+    max_value: 250
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xBE + (int)x;
+                    return {0x53,0x59,0x08,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Mode Settings"
+    id: custom_mode_settings
+    icon: mdi:cog
+    min_value: 0
+    max_value: 250
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xBB + (int)x;
+                    return {0x53,0x59,0x05,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Mode Settings End"
+    id: custom_mode_setting_completed
+    icon: mdi:cog
+    min_value: 0
+    max_value: 250
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xBC + (int)x;
+                    return {0x53,0x59,0x05,0x0a,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Custom Mode Query"
+    icon: mdi:cog
+    id: custom_mode_query
+    min_value: 0
+    max_value: 250
+    step: 1
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0x3B + (int)x;
+                    return {0x53,0x59,0x05,0x89,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Motion trigger time"
+    id: custom_motion_trigger_time
+    icon: mdi:camera-timer
+    unit_of_measurement: "ms"
+    min_value: 0
+    max_value: 4294967295
+    step: 5000
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xC4 + (int)x;
+                    int h24_num = ((int)x >> 24) & 0xff;
+                    int h16_num = ((int)x >> 16) & 0xff;
+                    int h8_num = ((int)x >> 8) & 0xff;
+                    int l8_num = (int)x & 0xff;
+                    return {0x53,0x59,0x08,0x0c,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Movement to rest time"
+    id: custom_movement_to_rest_time
+    icon: mdi:camera-timer
+    unit_of_measurement: "ms"
+    min_value: 0
+    max_value: 4294967295
+    step: 5000
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xC5 + (int)x;
+                    int h24_num = ((int)x >> 24) & 0xff;
+                    int h16_num = ((int)x >> 16) & 0xff;
+                    int h8_num = ((int)x >> 8) & 0xff;
+                    int l8_num = (int)x & 0xff;
+                    return {0x53,0x59,0x08,0x0d,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+ 
+  - platform: template
+    name: "Custom Time of entering unmanned state"
+    id: custom_time_of_enter_unmanned
+    icon: mdi:camera-timer
+    unit_of_measurement: "ms"
+    min_value: 0
+    max_value: 4294967295
+    step: 5000
+    set_action:
+      - uart.write: !lambda
+                    int crc = 0xC6 + (int)x;
+                    int h24_num = ((int)x >> 24) & 0xff;
+                    int h16_num = ((int)x >> 16) & 0xff;
+                    int h8_num = ((int)x >> 8) & 0xff;
+                    int l8_num = (int)x & 0xff;
+                    return {0x53,0x59,0x08,0x0e,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+ 
+text_sensor:
+- platform: custom
+  lambda: |-
+    auto my_custom_sensor = new MyCustomTextSensor();
+    App.register_component(my_custom_sensor);
+    return {my_custom_sensor->Heartbeat};
+ 
+  text_sensors:
+    - name: "Standard Heartbeat"
+      icon: mdi:connection
+ 
+- platform: template
+  name: "Standard Product model"
+  id: product_mode
+  icon: mdi:information-outline
+  on_raw_value:
+    then:
+      - logger.log: text_sensor on_raw_value
+ 
+- platform: template
+  name: "Standard Product ID"
+  id: product_id
+  icon: mdi:information-outline
+ 
+- platform: template
+  name: "Standard Hardware model"
+  id: hardware_model
+  icon: mdi:information-outline
+ 
+- platform: template
+  name: "Standard Firmware version"
+  id: firmware_version
+  icon: mdi:information-outline
+ 
+- platform: template
+  name: "Standard protocol type"
+  id: protocol_type
+  icon: mdi:information-outline
+ 
+- platform: template
+  name: "Standard moving direction"
+  id: keep_away
+  icon: mdi:walk
+ 
+- platform: template
+  name: "Standard Sports information"
+  id: motion_status
+  icon: mdi:human-greeting
+ 
+- platform: template
+  name: "Standard Presence information"
+  id: someoneExists
+  icon: "mdi:motion-sensor"
+ 
+- platform: template
+  name: "Custom Presence of detection"
+  id: custom_presence_of_detection
+  icon: mdi:signal-distance-variant
+ 
+# - platform: template
+#   name: "Custom Motion distance"
+#   id: custom_motion_distance
+ 
+# - platform: template
+#   name: "Custom Static distance"
+#   id: custom_static_distance
+ 
+# - platform: template
+#   name: "Custom Spatial static value"
+#   id: custom_spatial_static_value
+ 
+# - platform: template
+#   name: "Custom Spatial motion value"
+#   id: custom_spatial_motion_value
+ 
+# - platform: template
+#   name: "Custom Motion speed"
+#   id: custom_motion_speed
+ 
+ 
+button:
+  - platform: template
+    name: "Standard reset"
+    id: "reset"
+    icon: mdi:reload
+    on_press:
+      then:
+        - logger.log: Button Pressed
+        - uart.write: [0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43]
+ 
+switch:
+  - platform: template
+    id: output_info_switch
+    name: "Custom Infor output switch"
+    icon: mdi:electric-switch
+    assumed_state: true
+    turn_on_action:
+      - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x01,0xB6,0x54,0x43]
+      - delay: 1s
+      - lambda: !lambda |-
+          id(product_mode).publish_state("");
+          id(product_id).publish_state("");
+          id(hardware_model).publish_state("");
+          id(firmware_version).publish_state("");
+          id(protocol_type).publish_state("");
+    turn_off_action:
+      - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x00,0xB5,0x54,0x43]
+
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_custom_sensor = new UartReadLineSensor(id(uart_bus));
+    App.register_component(my_custom_sensor);
+    return {
+      my_custom_sensor->movementSigns,
+      my_custom_sensor->inited,
+    };
+  sensors:
+    - name: "Standard body movement"
+      id: movementSigns
+      icon: "mdi:human-greeting-variant"
+      device_class: "temperature"
+      state_class: "measurement"
+
+    - name: "Standard inited"
+      id: inited
+      icon: mdi:all-inclusive
+ 
+- platform: template
+  name: "Custom Motion distance"
+  id: custom_motion_distance
+  icon: mdi:signal-distance-variant
+  on_value:
+    then:
+      # - logger.log: Custom Motion distance on_value
+      - logger.log:
+            format: "Custom Motion distance on_value : %d"
+            args: ["x"]
+  on_raw_value:
+    then:
+      - logger.log:
+            format: "Custom Motion distance on_raw_value : %d"
+            args: ["x"]
+ 
+ 
+- platform: template
+  name: "Custom Static distance"
+  id: custom_static_distance
+  icon: mdi:signal-distance-variant
+
+- platform: template
+  name: "Custom Spatial static value"
+  id: custom_spatial_static_value
+  icon: mdi:counter
+
+- platform: template
+  name: "Custom Spatial motion value"
+  id: custom_spatial_motion_value
+  icon: mdi:counter
+
+- platform: template
+  name: "Custom Motion speed"
+  id: custom_motion_speed
+  icon: mdi:run-fast
+```
+
+</details>
+
 
 Then, please click on the **Save** button in the top right corner.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/63.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/63.png" /></div>
 
 ### Step 6. Upload firmware to XIAO ESP32C3
 
@@ -304,24 +807,26 @@ If you are using an x86 device and can see XIAO on the device port, then you can
 
 Connect XIAO to your device.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/ESPHome/49.png"/></div>
+<div align="center"><img src="https://files.seeedstudio.com/wiki/ESPHome/49.png" style={{width:700, height:'auto'}}/></div>
+
 
 Click on the three dots in the bottom right corner of the device bar and select **Install**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/84.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/84.png" /></div>
+
 
 Click **Plug into the computer running ESPHome Dashboard**.
 
-<div align=center><img width = 500 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/85.png"/></div>
+<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/85.png" /></div>
+
 
 Select the connected port.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/ESPHome/18.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/ESPHome/18.png" /></div>
 
 Now it will download all the necessary board packages and flash the ESPHome firmware into the XIAO ESP32C3. If the flashing is successful, you will see the following output.
 
-
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/ESPHome/19.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/ESPHome/19.png" /></div>
 
 If you are unable to find the port after connecting XIAO to your device, then you can try using the second method.
 
@@ -331,15 +836,16 @@ Soft routes like LinkStar H68K do not support recognition of external MCU device
 
 Click on the **Install** button in the top right hand corner. Then select the last item **Manual download**.
 
-<div align=center><img width = 500 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/30.png"/></div>
+<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/30.png" /></div>
+
 
 Select **Modern format**.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/31.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/31.png" /></div>
 
 It will then take a long time to download and compile, so please be patient. Once everything is ready, the firmware will be automatically downloaded to your computer.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/33.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/33.png" /></div>
 
 To upload the firmware to XIAO ESP32C3 there are couple options here we show 2 ways of doing it:
 
@@ -348,33 +854,37 @@ To upload the firmware to XIAO ESP32C3 there are couple options here we show 2 w
 Make sure you have the right drivers installed. Below are the drivers for common chips used in ESP devices.
 
 1. CP2102 drivers: [Windows & Mac](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
+
 2. CH342, CH343, CH9102 drivers: [Windowns](https://www.wch.cn/downloads/CH343SER_ZIP.html), [Mac](https://www.wch.cn/downloads/CH34XSER_MAC_ZIP.html)
+
 3. CH340, CH341 drivers: [Windowns](https://www.wch.cn/downloads/CH341SER_ZIP.html), [Mac](https://www.wch.cn/downloads/CH341SER_MAC_ZIP.html)
 
 Open the [ESPhome Web tool](https://web.esphome.io/?dashboard_install) with Chrome or Edge web browser.
 
 Click **CONNECT**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/34.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/34.png" /></div>
 
 select the XIAO ESP32 serial port in the popup window.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/64.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/64.png" /></div>
 
 Click **INSTALL** and then select the `.bin` file downloaded from above steps.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/35.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/35.png" /></div>
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/38.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/38.png" /></div>
 
 
 - Option 2: Using the [esphome-flasher tool](https://github.com/esphome/esphome-flasher).
 
 If you are still unable to upload firmware using method one after installing the driver and changing browsers, then you can try using method two. Please refer to the official tutorial for specific installation methods and instructions.
 
-!!!Tip
-    If you wish to observe the log messages of the XIAO ESP32C3, you can also view them through the View Logs button of this software.
-    <div align=center><img width = 500 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/41.png"/></div>
+:::tip
+If you wish to observe the log messages of the XIAO ESP32C3, you can also view them through the View Logs button of this software.
+
+<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/41.png" /></div>
+:::
 
 Once the upload is complete, you can disconnect the XIAO ESP32C3 from the PC (unless you have a need to view the logs) and simply power the XIAO separately.
 
@@ -382,11 +892,11 @@ If all goes well, the XIAO ESP32C3 will search for and connect to the WiFi you h
 
 Just like me, I use LinkStar H68K's network. You can find it in the network options and see the IP address assigned to it by LinkStar H68K.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/42.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/42.png" /></div>
 
 Normally, at this point in Home Assistant, the status of the device will also change from offline to online.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/65.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/65.png" /></div>
 
 ## Configure Home Assistant Panel
 
@@ -394,29 +904,29 @@ Normally, at this point in Home Assistant, the status of the device will also ch
 
 If you do not have many Home Assistant devices on your LAN, Home Assistant can automatically search for and add your ESP devices to the Devices tab. You can see this device inside the **Devices & Services** tab in **Settings**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/66.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/66.png" /></div>
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/67.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/67.png" /></div>
 
 If it does not automatically search, you can also connect to the XIAO ESP32C3 based on its IP address.
 
 Click **ADD INTEGRSTION** and search for **esphome**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/43.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/43.png" /></div>
 
 Then enter the IP address of the XIAO ESP32C3 with port number **6053**. Then click on **SUBMIT**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/44.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/44.png" /></div>
 
 If the IP address and port number entered are correct, then you will see that you are asked to enter the Encryption key, which we asked to save in [step 4](#jump1).
 
 Then click on **SUBMIT**.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/68.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/68.png" /></div>
 
 At this point, the steps to add the device have been successfully completed.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/51.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/51.png" /></div>
 
 ### Step 8. 24GHz mmWave Module Lite functions overview
 
@@ -424,11 +934,11 @@ We come to the Home Assistant's overview tab. We give a general overview of the 
 
 Firstly, there is the **Custom Infor output switch**. The icon on the left indicates that the information output is switched off, while the icon on the right indicates that the information output is switched on. If you want to see the sensor return information in real time, then you should have to click on the lightning bolt icon on the right.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/69.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/69.png" /></div>
 
 At the bottom of the card is a real-time data display page. Here you can observe the millimetre wave changes within the monitored environment and adjust the parameters in the card according to your location.
 
-<div align=center><img width = 400 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/70.png"/></div>
+<div align="center"><img width={400} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/70.png" /></div>
 
 Due to space limitations, you can refer to the following two documents for more information on the use of the sensor and a more detailed explanation of the parameters.
 
@@ -442,19 +952,19 @@ If you find the default cards very boring and unfriendly for presenting data, Ho
 
 You can make your own dashboard to suit your preferences.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/73.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/73.png" /></div>
 
 For example, the option to control the output of information is turned into a nice switch.
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/74.png"/></div>
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/74.png" /></div>
 
 Turning the speed of human movement into a visual dashboard display.
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/75.png"/></div>
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/75.png" /></div>
 
 This is what I came up with. It looks like it has the makings of a smart home control centre.
 
-<div align=center><img width = 800 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/76.png"/></div>
+<div align="center"><img width={800} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/76.png" /></div>
 
 So far, we have successfully concluded our tutorial content.
 
@@ -468,13 +978,13 @@ Get your creative juices flowing!
 
 ## Troubleshooting
 
-**FAQ1: I got the following error while uploading firmware using ESPhome Web tool, how can I fix it?**
+### FAQ1: I got the following error while uploading firmware using ESPhome Web tool, how can I fix it?
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/37.png"/></div>
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/37.png" /></div>
 
 > A: If this prompt appears while uploading, disconnect the XIAO ESP32C3 from the PC. Then, hold the BOOT BUTTON, connect the board to your PC while holding the BOOT button, and then release it to enter bootloader mode. At this point it is sufficient to reconnect and upload the firmware again.
 
-**FAQ2: I can't install esphome flasher under Linux following the tutorial of esphome flasher?**
+### FAQ2: I can't install esphome flasher under Linux following the tutorial of esphome flasher?
 
 > A: When executing the following commands, you need to select your system version, otherwise an error will occur. For example, my computer is Ubuntu 22.04, then the command that should be executed is as follows.
 
@@ -488,17 +998,81 @@ pip3 install -U \
 pip3 install esphomeflasher
 ```
 
-**FAQ3: I filled in the correct WiFi and password, why don't I see the IP address of the XIAO ESP32C3?**
+### FAQ3: I filled in the correct WiFi and password, why don't I see the IP address of the XIAO ESP32C3?
 
 > A: When you encounter this problem, please check that the XIAO ESP32C3's antenna is connected in place. If the antenna is already connected, please make sure that the XIAO is not further than 3m from the LinkStar if possible (unless you have replaced the antenna with a more powerful one).
 If you still do not see XIAO, you can use the [esphome flasher](https://github.com/esphome/esphome-flasher) software to check the XIAO log information and check the XIAO connection through the logs.
 You can re-plug the xiao to let it try to search for WiFi and connect again.
 
-**FAQ4: My XIAO ESP32C3 is connected to LinkStar's network, but why don't I see the sensor data refreshed?**
+### FAQ4: My XIAO ESP32C3 is connected to network, but why don't I see the sensor data refreshed?
 
-> A: When we encounter this problem, we need to use the logs to understand the exact reason why the sensor is not returning data. The situation that has been found to be likely to be encountered so far is a situation where the sensor is not responding, then its logs will look like this.
+:::caution
+As of June 1, 2023 troubleshooting has revealed that if you set any value or change any scene in the dashboard of ESPHome, there is a possibility that the radar will go down.
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/71.png"/></div>
+As of 31 July 2023, the previous issue that would cause the radar to completely die has now been fixed, so please update the library files and configurator for this tutorial species to work properly.
+:::
+
+> A: In the previous Wiki content, we used the default UART pins (D6, D7) to receive and send data from the radar, but many users feedback there is a need to re-power the radar before it can work. In response, we **updated the Wiki** content and procedures to replace the serial ports of the radar with **D2 and D3**, and after testing, this fixes the problem very well.
+
+<div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/esphome-pinconnect.png" style={{width:600, height:'auto'}}/></div>
+
+> **If you haven't noticed the Wiki update, I suggest you re-wire the radar and re-write the compile and upload process following [steps 2 and 5](#configure-the-xiao-esp32c3-and-esphome-connection) of this article's tutorial.**
+
+> However, some users have responded that they still can't get the radar to work properly even after replacing the serial pins. So here, we propose the following methods and steps to check where the problem occurs, if you still can't solve the problem of radar working, **please provide your operation steps to the technical support email**, which can speed up the processing of after-sales problems.
+
+**Please check the following Exclusion in order.**
+
+> **Exclusion 1: Make sure the XIAO ESP32C3 is under the same LAN as the ESPHome deployed device.**
+
+> If the XIAO ESP32C3 is not under the same LAN as the device of ESPHome, the log you see in Home Assistant is incomplete and cannot be used as the basis of data collection. So please double check your router to see if the IP address of XIAO appears.
+
+> **Exclusion 2: Check that the Data Live Transfer button is on.**
+
+> After XIAO is on the network and the device is successfully added, you will be able to see the radar components in the dashboard. Please note that by default the live data transfer button is off, you need to turn it on to be able to see the radar data being reported continuously.
+
+<div align="center"><img width={500} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/69.png" /></div>
+
+> **Exclusion 3: Check whether the radar can work properly.**
+
+> We need to make sure that the radar works well with the XIAO ESP32C3 first, which will allow us to quickly identify whether it is a problem with ESPHome or the product. Please upload the following code to XIAO ESP32C3 in Arduino IDE, please note that the **RX/TX pins of radar should be connected to D2/D3 of XIAO**.
+
+```cpp
+#include "Arduino.h"
+#include <humanstaticLite.h>
+#include <HardwareSerial.h>
+
+// can also try hardware serial with
+HumanStaticLite radar = HumanStaticLite(&Serial1);
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+  Serial1.begin(115200, SERIAL_8N1, 4, 5);
+  while(!Serial);   //When the serial port is opened, the program starts to execute.
+  Serial.println("Ready");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  radar.recvRadarBytes();           //Receive radar data and start processing
+  radar.showData();                 //Serial port prints a set of received data frames
+  delay(200);                       //Add time delay to avoid program jam
+}
+```
+
+> Open the serial monitor and set the baud rate to 115200, if the radar is working properly then you should see a lot of numbers printed out.
+
+> If you don't see any data output as soon as you do this step, re-flash the firmware for the radar according to the Wiki. We offer two ways for you to update the firmware: [Firmware Version Updates](https://wiki.seeedstudio.com/Radar_MR24HPC1/#firmware-version-updates).
+
+> If you still haven't heard anything after updating the firmware, please don't be stingy and contact our technical support team directly. And inform them of everything you have already done.
+
+> **Exclusion 4: The XIAO and radar work normally at the above check points, but after replacing the serial port pins, still can't get the radar real-time data.**
+
+> If you have replaced the RX and TX pins of the radar to D2/D3 and have also carefully troubleshoot according to the above and still cannot get real-time data messages, please contact our technical support team. Before that, **please let us know if the radar works properly in Arduino environment** so that we can analyze and deal with the problem.
+
+<!-- > A: When we encounter this problem, we need to use the logs to understand the exact reason why the sensor is not returning data. The situation that has been found to be likely to be encountered so far is a situation where the sensor is not responding, then its logs will look like this.
+
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/71.png" /></div>
 
 > If you see a similar log, please double check the following three places.
 > 1. Whether the sensor is supplied with 5V.
@@ -507,12 +1081,31 @@ You can re-plug the xiao to let it try to search for WiFi and connect again.
 
 > Generally speaking, the third point solves this problem. A normal log flow for data transfer should look like this.
 
-<div align=center><img width = 600 src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/72.png"/></div>
+<div align="center"><img width={600} src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/72.png" /></div> -->
 
-## Tech Support
+## FAQ5: I used the Jlink flash firmware, but I got the error "Programming of range @address 0x08000000 failed (block verification error) Program failed Failed to program and verify target" ?
 
-Please do not hesitate to submit the issue into our [forum](https://forum.seeedstudio.com/).
+When you are using the Jlink flash firmware and this error occurs, then you may be in any one of the following situations.
+
+1. Your sensor is no longer working properly at all and you cannot receive any messages from it.
+2. You are trying to use an invalid or incorrect firmware.
+
+:::caution
+If your radar was originally working properly, check again that you are using the correct firmware! The firmware used varies from radar to radar and from sensor model to sensor model! And the firmware upgrade via UART is not the same as the firmware upgrade via Jlink! Please stop proceeding with the following steps.
+:::
+
+<details>
+
+<summary><strong>I have confirmed that my product gets this error message in case of an exception</strong></summary>
+
+If your radar is not working at all, then it may be normal to have this error message.
+
+Because the abnormal operation of the radar has allowed the radar to trigger the read/write protection mechanism, the user is no longer allowed to flash program the product in general, so we need to unlock the radar's read/write protection mechanism.
+
+Due to the high risk of unprotecting reads and writes, we do not disclose the method of unprotecting reads and writes separately to the public here, we will place the method in the [zip file here](https://files.seeedstudio.com/wiki/Radar_MR24HPCB1/ArteryICPProgrammer_V2.4.23.zip) for those who need it. Once the abnormal radar is unprotected, the firmware can be updated again to restore normal operation.
+
+</details>
 
 
-<br /><p style="text-align:center"><a href="https://www.seeedstudio.com/act-4.html?utm_source=wiki&utm_medium=wikibanner&utm_campaign=newproducts" target="_blank"><img src="https://files.seeedstudio.com/wiki/Wiki_Banner/new_product.jpg" /></a></p>
+
 
