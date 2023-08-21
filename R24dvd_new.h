@@ -1011,27 +1011,27 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
         if (sg_spatial_static_value_bak != data[FRAME_DATA_INDEX])
         {
             sg_spatial_static_value_bak = data[FRAME_DATA_INDEX];
-            id(custom_spatial_static_value).publish_state(String(sg_spatial_static_value_bak));
+            id(custom_spatial_static_value).publish_state(sg_spatial_static_value_bak);
         }
         if (sg_static_distance_bak != data[FRAME_DATA_INDEX + 1])
         {
             sg_static_distance_bak = data[FRAME_DATA_INDEX + 1];
-            id(custom_static_distance).publish_state(String(sg_static_distance_bak * 0.5));
+            id(custom_static_distance).publish_state(sg_static_distance_bak * 0.5);
         }
         if (sg_spatial_motion_value_bak != data[FRAME_DATA_INDEX + 2])
         {
             sg_spatial_motion_value_bak = data[FRAME_DATA_INDEX + 2];
-            id(custom_spatial_motion_value).publish_state(String(sg_spatial_motion_value_bak));
+            id(custom_spatial_motion_value).publish_state(sg_spatial_motion_value_bak);
         }
         if (sg_motion_distance_bak != data[FRAME_DATA_INDEX + 3])
         {
             sg_motion_distance_bak = data[FRAME_DATA_INDEX + 3];
-            id(custom_motion_distance).publish_state(String(sg_motion_distance_bak * 0.5));
+            id(custom_motion_distance).publish_state(sg_motion_distance_bak * 0.5);
         }
         if (sg_motion_speed_bak != data[FRAME_DATA_INDEX + 4])
         {
             sg_motion_speed_bak = data[FRAME_DATA_INDEX + 4];
-            id(custom_motion_speed).publish_state(String((sg_motion_speed_bak - 10) * 0.5));
+            id(custom_motion_speed).publish_state((sg_motion_speed_bak - 10) * 0.5);
         }
         ESP_LOGD(TAG, "Reply: get output info %d  %d  %d  %d", data[FRAME_DATA_INDEX], data[FRAME_DATA_INDEX + 1], data[FRAME_DATA_INDEX + 2], data[FRAME_DATA_INDEX + 3]);
     }
@@ -1152,7 +1152,7 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x85) {  
         if (sg_motion_speed_bak != data[FRAME_DATA_INDEX]) {
             sg_motion_speed_bak = data[FRAME_DATA_INDEX];
-            id(custom_motion_speed).publish_state(String((sg_motion_speed_bak - 10) * 0.5));
+            id(custom_motion_speed).publish_state((sg_motion_speed_bak - 10) * 0.5);
         }
         ESP_LOGD(TAG, "Reply: get target movement speed %d", data[FRAME_DATA_INDEX]);
     }

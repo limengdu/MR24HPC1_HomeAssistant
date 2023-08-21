@@ -297,11 +297,6 @@ text_sensor:
   id: custom_presence_of_detection
   icon: mdi:signal-distance-variant
 
-# - platform: template
-#   name: "Motion Distance"
-#   id: custom_moving_of_detection
-#   icon: mdi:signal-distance-variant
-
 button:
   - platform: template
     name: "Module Reset"
@@ -420,9 +415,9 @@ switch:
     turn_on_action:
       - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x01,0xB6,0x54,0x43]
       - lambda: !lambda |-
-          id(keep_away).publish_state("Not Open");
-          id(motion_status).publish_state("Not Open");
-          id(someoneExists).publish_state("Not Open");
+          id(keep_away).publish_state("");
+          id(motion_status).publish_state("");
+          id(someoneExists).publish_state("");
           id(custom_spatial_static_value).publish_state("");
           id(custom_spatial_motion_value).publish_state("");
           id(custom_motion_distance).publish_state("");
@@ -431,11 +426,11 @@ switch:
     turn_off_action:
       - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x00,0xB5,0x54,0x43]
       - lambda: !lambda |-
-          id(custom_spatial_static_value).publish_state("Not Open");
-          id(custom_spatial_motion_value).publish_state("Not Open");
-          id(custom_motion_distance).publish_state("Not Open");
-          id(custom_static_distance).publish_state("Not Open");
-          id(custom_motion_speed).publish_state("Not Open");
+          id(custom_spatial_static_value).publish_state("");
+          id(custom_spatial_motion_value).publish_state("");
+          id(custom_motion_distance).publish_state("");
+          id(custom_static_distance).publish_state("");
+          id(custom_motion_speed).publish_state("");
           id(keep_away).publish_state("");
           id(motion_status).publish_state("");
           id(someoneExists).publish_state("");
@@ -477,21 +472,6 @@ sensor:
             args: ["x"]
 
 - platform: template
-  name: "Motion Distance (Proactive Reporting)"
-  id: custom_motion_distance
-  icon: mdi:signal-distance-variant
-  
-- platform: template
-  name: "Static Distance (Proactive Reporting)"
-  id: custom_static_distance
-  icon: mdi:signal-distance-variant
-
-- platform: template
-  name: "Existence Energy Value (Proactive Reporting)"
-  id: custom_spatial_static_value
-  icon: mdi:counter
-
-- platform: template
   name: "Existence Energy Value"
   id: existence_value_display
   icon: mdi:counter
@@ -500,16 +480,6 @@ sensor:
   name: "Motion Energy Value"
   id: motion_value_display
   icon: mdi:counter
-
-- platform: template
-  name: "Motion Energy Value (Proactive Reporting)"
-  id: custom_spatial_motion_value
-  icon: mdi:counter
-
-- platform: template
-  name: "Motion Speed"
-  id: custom_motion_speed
-  icon: mdi:run-fast
 
 - platform: template
   name: "Custom Mode"
@@ -535,4 +505,29 @@ sensor:
   name: "Time For Entering No Person State"
   id: time_for_enter_no_person_state_display
   icon: mdi:timeline-clock
+
+- platform: template
+  name: "Motion Distance (Proactive Reporting)"
+  id: custom_motion_distance
+  icon: mdi:signal-distance-variant
+  
+- platform: template
+  name: "Static Distance (Proactive Reporting)"
+  id: custom_static_distance
+  icon: mdi:signal-distance-variant
+
+- platform: template
+  name: "Existence Energy Value (Proactive Reporting)"
+  id: custom_spatial_static_value
+  icon: mdi:counter
+
+- platform: template
+  name: "Motion Energy Value (Proactive Reporting)"
+  id: custom_spatial_motion_value
+  icon: mdi:counter
+
+- platform: template
+  name: "Motion Speed"
+  id: custom_motion_speed
+  icon: mdi:run-fast
  
