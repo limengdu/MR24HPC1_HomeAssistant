@@ -1,0 +1,122 @@
+title: 我的家
+views:
+  - path: default_view
+    title: Home
+    cards:
+      - type: entities
+        entities:
+          - entity: select.xiao_esp32c3_scene_settings
+            name: Scene Settings
+          - entity: number.xiao_esp32c3_sensitivity_settings
+            name: Sensitivity Settings
+          - entity: >-
+              select.xiao_esp32c3_time_for_entering_no_person_state_setting_standard_function
+            name: Time For Entering No Person State Setting (Standard Function)
+          - entity: button.xiao_esp32c3_module_reset
+            name: Module Reset
+          - entity: sensor.xiao_esp32c3_firmware_version
+            name: Firmware Version
+          - entity: sensor.xiao_esp32c3_hardware_model
+            name: Hardware Model
+          - entity: sensor.xiao_esp32c3_product_id
+            name: Product ID
+          - entity: sensor.xiao_esp32c3_product_model
+            name: Product Model
+          - entity: sensor.xiao_esp32c3_standard_heartbeat
+            name: Standard Heartbeat
+          - entity: sensor.xiao_esp32c3_initialization_status
+            name: Initialization Status
+          - entity: sensor.xiao_esp32c3_body_movement_parameter
+            name: Body Movement Parameter
+          - entity: sensor.xiao_esp32c3_motion_information
+            name: Motion Information
+          - entity: sensor.xiao_esp32c3_presence_information
+            name: Presence Information
+          - entity: sensor.xiao_esp32c3_active_reporting_of_proximity
+            name: Active Reporting Of Proximity
+        title: Unsolicited Information
+
+      - type: entities
+        entities:
+          - entity: switch.xiao_esp32c3_underlying_open_function_info_output_switch
+            name: Underlying Open Function Info Output Switch
+          - entity: sensor.xiao_esp32c3_existence_energy_value_proactive_reporting
+            name: Existence Energy Value (Proactive Reporting)
+          - entity: sensor.xiao_esp32c3_motion_energy_value_proactive_reporting
+            name: Motion Energy Value (Proactive Reporting)
+          - entity: sensor.xiao_esp32c3_static_distance_proactive_reporting
+            name: Static Distance (Proactive Reporting)
+          - entity: sensor.xiao_esp32c3_motion_distance_proactive_reporting
+            name: Motion Distance (Proactive Reporting)
+          - entity: sensor.xiao_esp32c3_motion_speed
+            name: Motion Speed
+        title: Underlying Open Function
+
+      - type: entities
+        entities:
+          - entity: button.xiao_esp32c3_existence_energy_value_inquiry
+            name: Existence Energy Value Inquiry
+          - entity: sensor.xiao_esp32c3_existence_energy_value
+            name: Existence Energy Value
+          - entity: button.xiao_esp32c3_motion_energy_value_inquiry
+            name: Motion Energy Value Inquiry
+          - entity: sensor.xiao_esp32c3_motion_energy_value
+            name: Motion Energy Value
+          - entity: button.xiao_esp32c3_static_distance_inquiry
+            name: Static Distance Inquiry
+          - entity: sensor.xiao_esp32c3_static_distance
+            name: Static Distance
+          - entity: button.xiao_esp32c3_motion_distance_inquiry
+            name: Motion Distance Inquiry
+          - entity: sensor.xiao_esp32c3_motion_distance
+            name: Motion Distance
+          - entity: button.xiao_esp32c3_existence_judgment_threshold_inquiry
+            name: Existence Judgment Threshold Inquiry
+          - entity: sensor.xiao_esp32c3_existence_judgment_threshold
+            name: Existence Judgment Threshold
+          - entity: button.xiao_esp32c3_motion_trigger_threshold_inquiry
+            name: Motion Trigger Threshold Inquiry
+          - entity: sensor.xiao_esp32c3_motion_trigger_threshold
+            name: Motion Trigger Threshold
+          - entity: button.xiao_esp32c3_motion_to_rest_time_setting_query
+            name: Motion To Rest Time Setting Query
+          - entity: sensor.xiao_esp32c3_motion_to_rest_time
+            name: Motion To Rest Time
+          - entity: button.xiao_esp32c3_time_for_entering_no_person_state_inquiry
+            name: Time For Entering No Person State Inquiry
+          - entity: sensor.xiao_esp32c3_time_for_entering_no_person_state
+            name: Time For Entering No Person State
+          - entity: button.xiao_esp32c3_custom_mode_query
+            name: Custom Mode Query
+          - entity: sensor.xiao_esp32c3_custom_mode
+            name: Custom Mode
+          - entity: button.xiao_esp32c3_proximity_inquiry
+            name: Proximity Inquiry
+          - entity: sensor.xiao_esp32c3_active_reporting_of_proximity
+            name: Active Reporting Of Proximity
+        title: Enquiry Function
+
+      - type: entities
+        entities:
+          - entity: number.xiao_esp32c3_custom_mode_settings
+            name: Custom Mode Settings
+          - entity: button.xiao_esp32c3_end_of_custom_mode_settings
+            name: End Of Custom Mode Settings
+          - entity: number.xiao_esp32c3_existence_judgment_threshold_settings
+            name: Existence Judgment Threshold Settings
+          - entity: select.xiao_esp32c3_existence_perception_boundary_settings
+            name: Existence Perception Boundary Settings
+          - entity: number.xiao_esp32c3_motion_trigger_threshold_settings
+            name: Motion Trigger Threshold Settings
+          - entity: select.xiao_esp32c3_motion_trigger_boundary_setting
+            name: Motion Trigger Boundary Setting
+          - entity: number.xiao_esp32c3_motion_to_rest_time_setting
+            name: Motion To Rest Time Setting
+          - entity: number.xiao_esp32c3_motion_trigger_time_setting
+            name: Motion Trigger Time Setting
+          - entity: >-
+              number.xiao_esp32c3_time_for_entering_no_person_state_setting_underlying_open_function
+            name: >-
+              Time For Entering No Person State Setting (Underlying Open
+              Function)
+        title: Custom Settings

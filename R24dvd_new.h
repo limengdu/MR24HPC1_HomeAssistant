@@ -1220,7 +1220,7 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
         uint32_t enter_unmanned_time = (uint32_t)(data[FRAME_DATA_INDEX] << 24) + (uint32_t)(data[FRAME_DATA_INDEX + 1] << 16) + (uint32_t)(data[FRAME_DATA_INDEX + 2] << 8) + data[FRAME_DATA_INDEX + 3];
         if (sg_enter_unmanned_time_bak != enter_unmanned_time)
         {
-            id(custom_time_of_enter_unmanned).publish_state(enter_unmanned_time);
+            id(time_for_enter_no_person_state_display).publish_state(enter_unmanned_time);
             sg_enter_unmanned_time_bak = enter_unmanned_time;
         }
         ESP_LOGD(TAG, "Reply: get Time of entering unmanned state %u", enter_unmanned_time);
