@@ -1124,16 +1124,16 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
         ESP_LOGD(TAG, "Reply: get output switch %d", data[FRAME_DATA_INDEX]);
 
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x81) {
+        id(existence_value_display).publish_state(sg_spatial_static_value_bak);
         if (sg_spatial_static_value_bak != data[FRAME_DATA_INDEX]) {
             sg_spatial_static_value_bak = data[FRAME_DATA_INDEX];
-            id(existence_value_display).publish_state(sg_spatial_static_value_bak);
         }
         ESP_LOGD(TAG, "Reply: get spatial static value %d", data[FRAME_DATA_INDEX]);
 
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x82) {
+        id(motion_value_display).publish_state(sg_spatial_motion_value_bak);
         if (sg_spatial_motion_value_bak != data[FRAME_DATA_INDEX]) {
             sg_spatial_motion_value_bak = data[FRAME_DATA_INDEX];
-            id(motion_value_display).publish_state(sg_spatial_motion_value_bak);
         }
         ESP_LOGD(TAG, "Reply: get spatial motion amplitude %d", data[FRAME_DATA_INDEX]);
     }
@@ -1149,10 +1149,10 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
         // }
         ESP_LOGD(TAG, "Report: get distance of moving object %lf", data[FRAME_DATA_INDEX]*0.5);
 
-    } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x85) {  
+    } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x85) {
+        id(custom_motion_speed).publish_state((sg_motion_speed_bak - 10) * 0.5);
         if (sg_motion_speed_bak != data[FRAME_DATA_INDEX]) {
             sg_motion_speed_bak = data[FRAME_DATA_INDEX];
-            id(custom_motion_speed).publish_state((sg_motion_speed_bak - 10) * 0.5);
         }
         ESP_LOGD(TAG, "Reply: get target movement speed %d", data[FRAME_DATA_INDEX]);
     }
@@ -1198,9 +1198,9 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x8c)
     {
         uint32_t motion_trigger_time = (uint32_t)(data[FRAME_DATA_INDEX] << 24) + (uint32_t)(data[FRAME_DATA_INDEX + 1] << 16) + (uint32_t)(data[FRAME_DATA_INDEX + 2] << 8) + data[FRAME_DATA_INDEX + 3];
+        id(custom_motion_trigger_time).publish_state(motion_trigger_time);
         if (sg_motion_trigger_time_bak != motion_trigger_time)
         {
-            id(custom_motion_trigger_time).publish_state(motion_trigger_time);
             sg_motion_trigger_time_bak = motion_trigger_time;
         }
         ESP_LOGD(TAG, "Reply: get motion trigger time %u", motion_trigger_time);
@@ -1208,9 +1208,9 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x8d)
     {
         uint32_t move_to_rest_time = (uint32_t)(data[FRAME_DATA_INDEX] << 24) + (uint32_t)(data[FRAME_DATA_INDEX + 1] << 16) + (uint32_t)(data[FRAME_DATA_INDEX + 2] << 8) + data[FRAME_DATA_INDEX + 3];
+        id(motion_to_rest_time_display).publish_state(move_to_rest_time);
         if (sg_move_to_rest_time_bak != move_to_rest_time)
         {
-            id(motion_to_rest_time_display).publish_state(move_to_rest_time);
             sg_move_to_rest_time_bak = move_to_rest_time;
         }
         ESP_LOGD(TAG, "Reply: get movement to rest time %u", move_to_rest_time);
@@ -1218,9 +1218,9 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x8e)
     {
         uint32_t enter_unmanned_time = (uint32_t)(data[FRAME_DATA_INDEX] << 24) + (uint32_t)(data[FRAME_DATA_INDEX + 1] << 16) + (uint32_t)(data[FRAME_DATA_INDEX + 2] << 8) + data[FRAME_DATA_INDEX + 3];
+        id(time_for_enter_no_person_state_display).publish_state(enter_unmanned_time);
         if (sg_enter_unmanned_time_bak != enter_unmanned_time)
         {
-            id(time_for_enter_no_person_state_display).publish_state(enter_unmanned_time);
             sg_enter_unmanned_time_bak = enter_unmanned_time;
         }
         ESP_LOGD(TAG, "Reply: get Time of entering unmanned state %u", enter_unmanned_time);
