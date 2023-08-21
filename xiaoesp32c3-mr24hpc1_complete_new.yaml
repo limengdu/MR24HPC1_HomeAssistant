@@ -418,22 +418,14 @@ switch:
           id(keep_away).publish_state("");
           id(motion_status).publish_state("");
           id(someoneExists).publish_state("");
-          id(custom_spatial_static_value).publish_state("");
-          id(custom_spatial_motion_value).publish_state("");
-          id(custom_motion_distance).publish_state("");
-          id(custom_static_distance).publish_state("");
-          id(custom_motion_speed).publish_state("");
     turn_off_action:
       - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x00,0xB5,0x54,0x43]
       - lambda: !lambda |-
-          id(custom_spatial_static_value).publish_state("");
-          id(custom_spatial_motion_value).publish_state("");
-          id(custom_motion_distance).publish_state("");
-          id(custom_static_distance).publish_state("");
-          id(custom_motion_speed).publish_state("");
-          id(keep_away).publish_state("");
-          id(motion_status).publish_state("");
-          id(someoneExists).publish_state("");
+          id(custom_spatial_static_value).publish_state(0.0f);
+          id(custom_spatial_motion_value).publish_state(0.0f);
+          id(custom_motion_distance).publish_state(0.0f);
+          id(custom_static_distance).publish_state(0.0f);
+          id(custom_motion_speed).publish_state(0.0f);
 
 sensor:
 - platform: custom
