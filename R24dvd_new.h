@@ -66,15 +66,15 @@ enum
     OUTPUT_SWTICH_ON,
     OUTPUT_SWTICH_OFF,
 };
-static char s_heartbeat_str[2][20] = {"Abnormal", "Normal"};
-static char s_scene_str[5][20] = {"0", "Living room", "Area detection", "Washroom", "Bedroom"};
-static char s_someoneExists_str[2][20] = {"Nobody", "Someone"};
-static char s_motion_status_str[3][20] = {"None", "Motionless", "Active"};
-static char s_keep_away_str[3][20] = {"None", "Close", "Away"};
-static char s_unmanned_time_str[9][20] = {"none", "10s", "30s", "1min", "2min", "5min", "10min", "30min", "60min"};
+static char s_heartbeat_str[2][20] = {"0", "1"};
+static char s_scene_str[5][20] = {"0", "1", "2", "3", "4"};
+static char s_someoneExists_str[2][20] = {"0", "1"};
+static char s_motion_status_str[3][20] = {"none", "0", "1"};
+static char s_keep_away_str[3][20] = {"none", "0", "1"};
+static char s_unmanned_time_str[9][20] = {"none", "10s", "30s", "1min", "2min", "5min", "10min", "30min", "1hour"};
 static char s_motion_trig_boundary_str[10][5] = {"0.5m", "1.0m", "1.5m", "2.0m", "2.5m", "3.0m", "3.5m", "4.0m", "4.5m", "5.0m"};
 static char s_presence_of_perception_boundary_str[10][5] = {"0.5m", "1.0m", "1.5m", "2.0m", "2.5m", "3.0m", "3.5m", "4.0m", "4.5m", "5.0m"};
-static char s_presence_of_detection_range_str[7][10] = {"None", "0.5m", "1.0m", "1.5m", "2.0m", "2.5m", "3.0m"};
+static char s_presence_of_detection_range_str[7][10] = {"none", "0.5m", "1.0m", "1.5m", "2.0m", "2.5m", "3.0m"};
 
 static uint8_t s_output_info_switch_flag = OUTPUT_SWITCH_INIT;
 
@@ -144,7 +144,7 @@ public:
         if (sg_init_flag && (255 != sg_heartbeat_flag))
         {
             this->Heartbeat->publish_state(s_heartbeat_str[sg_heartbeat_flag]);
-            // sg_heartbeat_flag = 0;
+            sg_heartbeat_flag = 0;
         }
         if (s_power_on_status < 4)
         {
@@ -223,7 +223,7 @@ public:
     void R24_split_data_frame(uint8_t value);
     void R24_frame_parse_work_status(uint8_t *data);
     void R24_frame_parse_human_information(uint8_t *data);
-    // void R24_frame_parse_detection_range(uint8_t *data);
+    void R24_frame_parse_detection_range(uint8_t *data);
     void R24_frame_parse_product_Information(uint8_t *data);
     void R24_frame_parse_open_underlying_information(uint8_t *data);
     void R24_parse_data_frame(uint8_t *data, uint8_t len);
@@ -789,7 +789,7 @@ void UartReadLineSensor::R24_frame_parse_work_status(uint8_t *data)
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x89)
     {
         // 1-4
-        id(custom_mode_display).publish_state(data[FRAME_DATA_INDEX]);
+        id(custom_mode_settings).publish_state(data[FRAME_DATA_INDEX]);
         ESP_LOGD(TAG, "Reply: get custom_mode_settings 0x%02X", data[FRAME_DATA_INDEX]);
     }
     else
@@ -894,33 +894,33 @@ void UartReadLineSensor::R24_frame_parse_human_information(uint8_t *data)
     }
 }
 
-// void UartReadLineSensor::R24_frame_parse_detection_range(uint8_t *data)
-// {
-//     if (data[FRAME_COMMAND_WORD_INDEX] == 0x01)
-//     {
-//         id(moving_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//         ESP_LOGD(TAG, "Reply: set movingTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//     }
-//     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x04)
-//     {
-//         id(static_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//         ESP_LOGD(TAG, "Reply: set staticTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//     }
-//     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x81)
-//     {
-//         id(moving_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//         ESP_LOGD(TAG, "Reply: get movingTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//     }
-//     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x84)
-//     {
-//         id(static_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//         ESP_LOGD(TAG, "Reply: get staticTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
-//     }
-//     else
-//     {
-//         ESP_LOGD(TAG, "[%s] No found COMMAND_WORD(%02X) in Frame", __FUNCTION__, data[FRAME_COMMAND_WORD_INDEX]);
-//     }
-// }
+void UartReadLineSensor::R24_frame_parse_detection_range(uint8_t *data)
+{
+    if (data[FRAME_COMMAND_WORD_INDEX] == 0x01)
+    {
+        id(moving_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+        ESP_LOGD(TAG, "Reply: set movingTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+    }
+    else if (data[FRAME_COMMAND_WORD_INDEX] == 0x04)
+    {
+        id(static_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+        ESP_LOGD(TAG, "Reply: set staticTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+    }
+    else if (data[FRAME_COMMAND_WORD_INDEX] == 0x81)
+    {
+        id(moving_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+        ESP_LOGD(TAG, "Reply: get movingTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+    }
+    else if (data[FRAME_COMMAND_WORD_INDEX] == 0x84)
+    {
+        id(static_target_detection_max_distance).publish_state(data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+        ESP_LOGD(TAG, "Reply: get staticTargetDetectionMaxDistance %d", data[FRAME_DATA_INDEX] * 256 + data[FRAME_DATA_INDEX + 1]);
+    }
+    else
+    {
+        ESP_LOGD(TAG, "[%s] No found COMMAND_WORD(%02X) in Frame", __FUNCTION__, data[FRAME_COMMAND_WORD_INDEX]);
+    }
+}
 
 void UartReadLineSensor::R24_frame_parse_product_Information(uint8_t *data)
 {
@@ -1126,14 +1126,14 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x81) {
         if (sg_spatial_static_value_bak != data[FRAME_DATA_INDEX]) {
             sg_spatial_static_value_bak = data[FRAME_DATA_INDEX];
-            id(existence_value_display).publish_state(sg_spatial_static_value_bak);
+            id(custom_spatial_static_value).publish_state(sg_spatial_static_value_bak);
         }
         ESP_LOGD(TAG, "Reply: get spatial static value %d", data[FRAME_DATA_INDEX]);
 
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x82) {
         if (sg_spatial_motion_value_bak != data[FRAME_DATA_INDEX]) {
             sg_spatial_motion_value_bak = data[FRAME_DATA_INDEX];
-            id(motion_value_display).publish_state(sg_spatial_motion_value_bak);
+            id(custom_spatial_motion_value).publish_state(sg_spatial_motion_value_bak);
         }
         ESP_LOGD(TAG, "Reply: get spatial motion amplitude %d", data[FRAME_DATA_INDEX]);
     }
@@ -1145,7 +1145,7 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     } else if (data[FRAME_COMMAND_WORD_INDEX] == 0x84) { 
         // if (sg_motion_distance_bak != data[FRAME_DATA_INDEX]) {
             sg_motion_distance_bak = data[FRAME_DATA_INDEX];
-            id(custom_moving_of_detection).publish_state(sg_motion_distance_bak * 0.5);
+            id(custom_motion_distance).publish_state(sg_motion_distance_bak * 0.5);
         // }
         ESP_LOGD(TAG, "Report: get distance of moving object %lf", data[FRAME_DATA_INDEX]*0.5);
 
@@ -1171,12 +1171,12 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
     }
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x88)
     {
-        id(existence_judgment_display).publish_state(data[FRAME_DATA_INDEX]);
+        id(custom_judgment_threshold_exists).publish_state(data[FRAME_DATA_INDEX]);
         ESP_LOGD(TAG, "Reply: get judgment threshold exists %d", data[FRAME_DATA_INDEX]);
     }
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x89)
     {
-        id(motion_trigger_threshold_display).publish_state(data[FRAME_DATA_INDEX]);
+        id(custom_motion_amplitude_trigger_threshold).publish_state(data[FRAME_DATA_INDEX]);
         ESP_LOGD(TAG, "Reply: get motion amplitude trigger threshold setting %d", data[FRAME_DATA_INDEX]);
     }
     else if (data[FRAME_COMMAND_WORD_INDEX] == 0x8a)
@@ -1210,7 +1210,7 @@ void UartReadLineSensor::R24_frame_parse_open_underlying_information(uint8_t *da
         uint32_t move_to_rest_time = (uint32_t)(data[FRAME_DATA_INDEX] << 24) + (uint32_t)(data[FRAME_DATA_INDEX + 1] << 16) + (uint32_t)(data[FRAME_DATA_INDEX + 2] << 8) + data[FRAME_DATA_INDEX + 3];
         if (sg_move_to_rest_time_bak != move_to_rest_time)
         {
-            id(motion_to_rest_time_display).publish_state(move_to_rest_time);
+            id(custom_movement_to_rest_time).publish_state(move_to_rest_time);
             sg_move_to_rest_time_bak = move_to_rest_time;
         }
         ESP_LOGD(TAG, "Reply: get movement to rest time %u", move_to_rest_time);
@@ -1255,11 +1255,11 @@ void UartReadLineSensor::R24_parse_data_frame(uint8_t *data, uint8_t len)
         this->R24_frame_parse_work_status(data);
     }
     break;
-    // case 0x07:
-    // {
-    //     this->R24_frame_parse_detection_range(data);
-    // }
-    // break;
+    case 0x07:
+    {
+        this->R24_frame_parse_detection_range(data);
+    }
+    break;
     case 0x08:
     {
         this->R24_frame_parse_open_underlying_information(data);

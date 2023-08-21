@@ -6,17 +6,17 @@ uart:
 
 select:
   - platform: template
-    name: "Scene Settings"
+    name: "Scene mode"
     id: scene_mode
     icon: mdi:hoop-house
     optimistic: true
     options:
-      - "None"
-      - "Living Room"
-      - "Area Detection"
-      - "Washroom"
-      - "Bedroom"
-    initial_option: "Living Room"
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    initial_option: "0"
     set_action:
       - logger.log:
             format: "set action option: %s"
@@ -28,7 +28,7 @@ select:
                   return {0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43};
 
   - platform: template
-    name: "Time for entering no person state setting"
+    name: "unmanned time"
     id: unmanned_time
     icon: mdi:timeline-clock
     optimistic: true
@@ -106,7 +106,7 @@ select:
 number:
   - platform: template
     id: sensitivity
-    name: "Sensitivity Settings"
+    name: "sensitivity"
     icon: mdi:archive-check-outline
     min_value: 0
     max_value: 3
@@ -149,7 +149,7 @@ number:
                     return {0x53,0x59,0x07,0x04,0x00,0x02,(uint8_t)(h_num),(uint8_t)(l_num),(uint8_t)crc,0x54,0x43};
 
   - platform: template
-    name: "Existence Judgment Threshold Settings"
+    name: "Custom Judgment threshold exists"
     id: custom_judgment_threshold_exists
     min_value: 0
     max_value: 250
@@ -160,7 +160,7 @@ number:
                     return {0x53,0x59,0x08,0x08,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
 
   - platform: template
-    name: "Motion Trigger Threshold Settings"
+    name: "Custom Motion amplitude trigger threshold"
     id: custom_motion_amplitude_trigger_threshold
     min_value: 0
     max_value: 250
@@ -183,7 +183,7 @@ number:
                     return {0x53,0x59,0x05,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
 
   - platform: template
-    name: "Motion Trigger Time Setting"
+    name: "Custom Motion trigger time"
     id: custom_motion_trigger_time
     icon: mdi:camera-timer
     unit_of_measurement: "ms"
@@ -200,7 +200,7 @@ number:
                     return {0x53,0x59,0x08,0x0c,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
 
   - platform: template
-    name: "Motion-to-Still Time Setting"
+    name: "Custom Movement to rest time"
     id: custom_movement_to_rest_time
     icon: mdi:camera-timer
     unit_of_measurement: "ms"
@@ -217,7 +217,7 @@ number:
                     return {0x53,0x59,0x08,0x0d,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
 
   - platform: template
-    name: "Time For Entering No Person State Setting"
+    name: "Custom Time of entering unmanned state"
     id: custom_time_of_enter_unmanned
     icon: mdi:camera-timer
     unit_of_measurement: "ms"
@@ -245,7 +245,7 @@ text_sensor:
       icon: mdi:connection
 
 - platform: template
-  name: "Product Model"
+  name: "Product model"
   id: product_mode
   icon: mdi:information-outline
   on_raw_value:
@@ -258,22 +258,22 @@ text_sensor:
   icon: mdi:information-outline
 
 - platform: template
-  name: "Hardware Model"
+  name: "Hardware model"
   id: hardware_model
   icon: mdi:information-outline
 
 - platform: template
-  name: "Firmware Version"
+  name: "Firmware version"
   id: firmware_version
   icon: mdi:information-outline
 
 - platform: template
-  name: "Active Reporting Of Proximity"
+  name: "moving direction"
   id: keep_away
   icon: mdi:walk
 
 - platform: template
-  name: "Motion Information"
+  name: "Sports information"
   id: motion_status
   icon: mdi:human-greeting
 
@@ -283,14 +283,14 @@ text_sensor:
   icon: "mdi:motion-sensor"
 
 - platform: template
-  name: "Static Distance"
+  name: "Custom Presence of detection"
   id: custom_presence_of_detection
   icon: mdi:signal-distance-variant
 
 
 button:
   - platform: template
-    name: "Module Reset"
+    name: "reset"
     id: "reset"
     icon: mdi:reload
     on_press:
@@ -299,7 +299,7 @@ button:
         - uart.write: [0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43]
 
   - platform: template
-    name: "End Of Custom Mode Settings"
+    name: "Custom Mode Settings End"
     id: custom_mode_setting_completed
     icon: mdi:cog
     on_press:
@@ -317,7 +317,7 @@ button:
         - uart.write: [0x53,0x59,0x05,0x89,0x00,0x01,0x0F,0x4A,0x54,0x43]
 
   - platform: template
-    name: "Existence Energy Value Inquiry"
+    name: "Custom Spatial Static Value Query"
     icon: mdi:cog
     id: custom_spatial_static_value_query
     on_press:
@@ -326,7 +326,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x81,0x00,0x01,0x0F,0x45,0x54,0x43]
 
   - platform: template
-    name: "Motion Energy Value Inquiry"
+    name: "Custom Spatial motion value"
     icon: mdi:cog
     id: custom_spatial_motion_value_query
     on_press:
@@ -335,7 +335,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x82,0x00,0x01,0x0F,0x46,0x54,0x43]
 
   - platform: template
-    name: "Static Distance Inquiry"
+    name: "Presence Of Detection Range Query"
     icon: mdi:cog
     id: custom_presence_of_detection_query
     on_press:
@@ -344,7 +344,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x83,0x00,0x01,0x0F,0x47,0x54,0x43]
 
   - platform: template
-    name: "Motion Distance Inquiry"
+    name: "Custom Motion Distance Query"
     icon: mdi:cog
     id: custom_motion_distance_query
     on_press:
@@ -353,7 +353,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x84,0x00,0x01,0x0F,0x48,0x54,0x43]
 
   - platform: template
-    name: "Existence Judgment Threshold Inquiry"
+    name: "Existence Judgment Threshold Setting Query"
     icon: mdi:cog
     id: custom_judgment_threshold_exists_query
     on_press:
@@ -362,7 +362,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x88,0x00,0x01,0x0F,0x4C,0x54,0x43]
 
   - platform: template
-    name: "Motion Trigger Threshold Inquiry"
+    name: "Motion Amplitude Trigger Threshold Setting Query"
     icon: mdi:cog
     id: custom_motion_trigger_time_query
     on_press:
@@ -380,7 +380,7 @@ button:
         - uart.write: [0x53,0x59,0x08,0x8d,0x00,0x01,0x0F,0x51,0x54,0x43]
 
   - platform: template
-    name: "Motion-to-Still Time Inquiry"
+    name: "Custom Time Of Enter Unmanned Query"
     icon: mdi:cog
     id: custom_time_of_enter_unmanned_query
     on_press:
@@ -391,7 +391,7 @@ button:
 switch:
   - platform: template
     id: output_info_switch
-    name: "Underlying Open Function Info Output Switch"
+    name: "Custom Infor output switch"
     icon: mdi:electric-switch
     assumed_state: true
     turn_on_action:
@@ -415,18 +415,18 @@ sensor:
       my_custom_sensor->inited,
     };
   sensors:
-    - name: "Body Movement Parameter"
+    - name: "body movement"
       id: movementSigns
       icon: "mdi:human-greeting-variant"
       device_class: "temperature"
       state_class: "measurement"
 
-    - name: "Initialization Status"
+    - name: "inited Status"
       id: inited
       icon: mdi:all-inclusive
 
 - platform: template
-  name: "Motion Distance"
+  name: "Custom Motion distance"
   id: custom_motion_distance
   icon: mdi:signal-distance-variant
   on_value:
@@ -443,22 +443,22 @@ sensor:
   
 
 - platform: template
-  name: "Static Distance"
+  name: "Custom Static distance"
   id: custom_static_distance
   icon: mdi:signal-distance-variant
 
 - platform: template
-  name: "Existence Energy Value"
+  name: "Custom Spatial static value"
   id: custom_spatial_static_value
   icon: mdi:counter
 
 - platform: template
-  name: "Motion Energy Value"
+  name: "Custom Spatial motion value"
   id: custom_spatial_motion_value
   icon: mdi:counter
 
 - platform: template
-  name: "Motion Speed"
+  name: "Custom Motion speed"
   id: custom_motion_speed
   icon: mdi:run-fast
 
