@@ -3,13 +3,22 @@ substitutions:
   device_name: MR24HPC1 MMWave Kit
   header_sensor: headers/mr24hpc1_mmwave_kit.h
   uart_rx_pin: "4"
-  uart_tx_pin: "5"
+  uart_tx_pin: "5"  
 
 esphome:
   name: ${device_id}
   friendly_name: ${device_name}
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.mcu: esp32c3
   includes:
   - ${header_sensor}
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: esp-idf
 
 # Enable logging
 logger:
