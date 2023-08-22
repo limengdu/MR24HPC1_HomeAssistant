@@ -1,18 +1,11 @@
-substitutions:
-  device_id: mr24hpc1-mmwave-kit
-  device_name: MR24HPC1 MMWave Kit
-  header_sensor: headers/mr24hpc1_mmwave_kit.h
-  uart_rx_pin: "4"
-  uart_tx_pin: "5"  
-
 esphome:
-  name: ${device_id}
-  friendly_name: ${device_name}
+  name: mmwave_kit
+  friendly_name: mmwave_kit
   platformio_options:
     board_build.flash_mode: dio
     board_build.mcu: esp32c3
   includes:
-  - ${header_sensor}
+    mr24hpc1_mmwave_kit.h
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -25,12 +18,27 @@ logger:
   hardware_uart: USB_SERIAL_JTAG
   level: DEBUG
 
-# part 3:
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "LbngZOZvkIwhA7/PjWQjIWLUCFwZLJxCRcYVyiwkjAk="
+
+ota:
+  password: "e254d9cf620b416c99e1f2c9d7168bea"
+
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "mmwave-kit"
+    password: "seeedstudio"
+
+captive_portal:
+
 uart:
   id: uart_bus
   baud_rate:  115200
-  rx_pin: ${uart_rx_pin}
-  tx_pin: ${uart_tx_pin}
+  rx_pin: 4
+  tx_pin: 5
 
 select:
   - platform: template
@@ -510,4 +518,4 @@ sensor:
   name: "Motion Speed"
   id: custom_motion_speed
   icon: mdi:run-fast
- 
+    
