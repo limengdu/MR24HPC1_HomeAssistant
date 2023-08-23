@@ -1,24 +1,26 @@
 esphome:
   name: mmwave-kit
   friendly_name: mmwave-kit
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.mcu: esp32c3
 
 esp32:
   board: esp32-c3-devkitm-1
+  variant: esp32c3
   framework:
-    type: arduino
+    type: esp-idf
 
 # Enable logging
 logger:
-  hardware_uart: UART0
+  hardware_uart: USB_SERIAL_JTAG
   level: DEBUG
 
 # Enable Home Assistant API
 api:
-  encryption:
-    key: "6xoutGmrzEbLtIedlxSuWzf729L/s7a1FinK3VIpZ6g="
 
 ota:
-  password: "74c0d633b5bf52584c883e17bf612bb1"
+  password: "e254d9cf620b416c99e1f2c9d7168bea"
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
