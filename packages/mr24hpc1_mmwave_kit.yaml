@@ -7,33 +7,6 @@ esphome:
   includes:
     mr24hpc1_mmwave_kit.h
 
-esp32:
-  board: esp32-c3-devkitm-1
-  variant: esp32c3
-  framework:
-    type: esp-idf
-
-# Enable logging
-logger:
-  hardware_uart: USB_SERIAL_JTAG
-  level: DEBUG
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "LbngZOZvkIwhA7/PjWQjIWLUCFwZLJxCRcYVyiwkjAk="
-
-ota:
-  password: "e254d9cf620b416c99e1f2c9d7168bea"
-
-wifi:
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "mmwave-kit"
-    password: "seeedstudio"
-
-captive_portal:
-
 uart:
   id: uart_bus
   baud_rate:  115200
