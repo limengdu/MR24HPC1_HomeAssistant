@@ -1,3 +1,6 @@
+# Please note that this sample program is for reference only, 
+# as the name of the component may not necessarily match your device, 
+# and you will need to modify it according to the actual name.
 title: My Home
 views:
   - path: default_view

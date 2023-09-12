@@ -1,6 +1,14 @@
+substitutions:
+  name: "seeedstudio-mmwave-kit"
+  friendly_name: "SeeedStudio mmWave Kit"
+
 esphome:
-  name: mmwave_kit
-  friendly_name: mmwave_kit
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: true
+  project:
+    name: "seeedstudio.mmwave_kit"
+    version: "1.1"
   platformio_options:
     board_build.flash_mode: dio
     board_build.mcu: esp32c3
@@ -22,15 +30,25 @@ logger:
 api:
 
 ota:
-  password: "e254d9cf620b416c99e1f2c9d7168bea"
+
+dashboard_import:
+  package_import_url: github://limengdu/MR24HPC1_HomeAssistant/example/mr24hpc1_mmwave_kit.yaml@mmwave-kit
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "mmwave-kit"
-    password: "seeedstudio"
 
 captive_portal:
+
+# Sets up Bluetooth LE (Only on ESP32) to allow the user
+# to provision wifi credentials to the device.
+esp32_improv:
+  authorizer: none
+
+# Sets up the improv via serial client for Wi-Fi provisioning.
+# Handy if your device has a usb port for the user to add credentials when they first get it.
+improv_serial:
 
 uart:
   id: uart_bus
