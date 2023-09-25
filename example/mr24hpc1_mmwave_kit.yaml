@@ -13,7 +13,7 @@ esphome:
     board_build.flash_mode: dio
     board_build.mcu: esp32c3
   includes:
-    mr24hpc1_mmwave_kit.h
+    - ../headers/mr24hpc1_mmwave_kit.h
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -48,11 +48,11 @@ esp32_improv:
 
 # Sets up the improv via serial client for Wi-Fi provisioning.
 # Handy if your device has a usb port for the user to add credentials when they first get it.
-improv_serial:
+# improv_serial: # Commented until improv works with usb-jtag on idf
 
 uart:
   id: uart_bus
-  baud_rate:  115200
+  baud_rate: 115200
   rx_pin: 4
   tx_pin: 5
 
@@ -71,13 +71,12 @@ select:
     initial_option: "Living Room"
     set_action:
       - logger.log:
-            format: "set action option: %s"
-            args: ["x.c_str()"]
-      - uart.write: !lambda
-                  auto index = id(scene_mode).index_of(x);
-                  uint8_t value = (uint8_t)index.value() + 1;
-                  uint8_t crc = value + 0xB9;
-                  return {0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43};
+          format: "set action option: %s"
+          args: ["x.c_str()"]
+      - uart.write: !lambda auto index = id(scene_mode).index_of(x);
+          uint8_t value = (uint8_t)index.value() + 1;
+          uint8_t crc = value + 0xB9;
+          return {0x53,0x59,0x05,0x07,0x00,0x01,value,crc,0x54,0x43};
 
   - platform: template
     name: "Time For Entering No Person State Setting (Standard Function)"
@@ -89,21 +88,20 @@ select:
       - "10s"
       - "30s"
       - "1min"
-      - "2min" 
-      - "5min" 
+      - "2min"
+      - "5min"
       - "10min"
       - "30min"
       - "60min"
     initial_option: "none"
     set_action:
       - logger.log:
-            format: "Chosen option: %s"
-            args: ["x.c_str()"]
-      - uart.write: !lambda
-                  auto index = id(unmanned_time).index_of(x);
-                  uint8_t value = (uint8_t)index.value();
-                  uint8_t crc = value + 0x37;
-                  return {0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43};
+          format: "Chosen option: %s"
+          args: ["x.c_str()"]
+      - uart.write: !lambda auto index = id(unmanned_time).index_of(x);
+          uint8_t value = (uint8_t)index.value();
+          uint8_t crc = value + 0x37;
+          return {0x53,0x59,0x80,0x0a,0x00,0x01,value,crc,0x54,0x43};
 
   - platform: template
     name: "Existence Perception Boundary Settings"
@@ -113,8 +111,8 @@ select:
       - "0.5m"
       - "1.0m"
       - "1.5m"
-      - "2.0m" 
-      - "2.5m" 
+      - "2.0m"
+      - "2.5m"
       - "3.0m"
       - "3.5m"
       - "4.0m"
@@ -122,13 +120,13 @@ select:
       - "5.0m"
     set_action:
       - logger.log:
-            format: "Chosen option: %s"
-            args: ["x.c_str()"]
-      - uart.write: !lambda
-                  auto index = id(custom_presence_of_perception_boundary).index_of(x);
-                  uint8_t value = (uint8_t)index.value() + 1;
-                  uint8_t crc = value + 0xBF;
-                  return {0x53,0x59,0x08,0x0a,0x00,0x01,value,crc,0x54,0x43};
+          format: "Chosen option: %s"
+          args: ["x.c_str()"]
+      - uart.write:
+          !lambda auto index = id(custom_presence_of_perception_boundary).index_of(x);
+          uint8_t value = (uint8_t)index.value() + 1;
+          uint8_t crc = value + 0xBF;
+          return {0x53,0x59,0x08,0x0a,0x00,0x01,value,crc,0x54,0x43};
 
   - platform: template
     name: "Motion Trigger Boundary Setting"
@@ -138,8 +136,8 @@ select:
       - "0.5m"
       - "1.0m"
       - "1.5m"
-      - "2.0m" 
-      - "2.5m" 
+      - "2.0m"
+      - "2.5m"
       - "3.0m"
       - "3.5m"
       - "4.0m"
@@ -147,13 +145,13 @@ select:
       - "5.0m"
     set_action:
       - logger.log:
-            format: "Chosen option: %s"
-            args: ["x.c_str()"]
-      - uart.write: !lambda
-                  auto index = id(custom_motion_trigger_boundary).index_of(x);
-                  uint8_t value = (uint8_t)index.value() + 1;
-                  uint8_t crc = value + 0xC0;
-                  return {0x53,0x59,0x08,0x0b,0x00,0x01,value,crc,0x54,0x43};
+          format: "Chosen option: %s"
+          args: ["x.c_str()"]
+      - uart.write:
+          !lambda auto index = id(custom_motion_trigger_boundary).index_of(x);
+          uint8_t value = (uint8_t)index.value() + 1;
+          uint8_t crc = value + 0xC0;
+          return {0x53,0x59,0x08,0x0b,0x00,0x01,value,crc,0x54,0x43};
 
 number:
   - platform: template
@@ -166,9 +164,8 @@ number:
     step: 1
     update_interval: 2s
     set_action:
-      - uart.write: !lambda
-                    uint8_t crc = x + 0xBA;
-                    return {0x53,0x59,0x05,0x08,0x00,0x01,(uint8_t)x,crc,0x54,0x43};
+      - uart.write: !lambda uint8_t crc = x + 0xBA;
+          return {0x53,0x59,0x05,0x08,0x00,0x01,(uint8_t)x,crc,0x54,0x43};
 
   - platform: template
     name: "Existence Judgment Threshold Settings"
@@ -177,9 +174,8 @@ number:
     max_value: 250
     step: 1
     set_action:
-      - uart.write: !lambda
-                    int crc = 0xBD + (int)x;
-                    return {0x53,0x59,0x08,0x08,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int crc = 0xBD + (int)x;
+          return {0x53,0x59,0x08,0x08,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
 
   - platform: template
     name: "Motion Trigger Threshold Settings"
@@ -188,9 +184,8 @@ number:
     max_value: 250
     step: 1
     set_action:
-      - uart.write: !lambda
-                    int crc = 0xBE + (int)x;
-                    return {0x53,0x59,0x08,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int crc = 0xBE + (int)x;
+          return {0x53,0x59,0x08,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
 
   - platform: template
     name: "Custom Mode Settings"
@@ -200,9 +195,8 @@ number:
     max_value: 4
     step: 1
     set_action:
-      - uart.write: !lambda
-                    int crc = 0xBB + (int)x;
-                    return {0x53,0x59,0x05,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int crc = 0xBB + (int)x;
+          return {0x53,0x59,0x05,0x09,0x00,0x01,(uint8_t)x,(uint8_t)crc,0x54,0x43};
 
   - platform: template
     name: "Motion Trigger Time Setting"
@@ -213,13 +207,12 @@ number:
     max_value: 4294967295
     step: 100
     set_action:
-      - uart.write: !lambda                   
-                    int h24_num = ((int)x >> 24) & 0xff;
-                    int h16_num = ((int)x >> 16) & 0xff;
-                    int h8_num = ((int)x >> 8) & 0xff;
-                    int l8_num = (int)x & 0xff;
-                    int crc = 0xC4 + h24_num + h16_num + h8_num + l8_num;
-                    return {0x53,0x59,0x08,0x0c,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int h24_num = ((int)x >> 24) & 0xff;
+          int h16_num = ((int)x >> 16) & 0xff;
+          int h8_num = ((int)x >> 8) & 0xff;
+          int l8_num = (int)x & 0xff;
+          int crc = 0xC4 + h24_num + h16_num + h8_num + l8_num;
+          return {0x53,0x59,0x08,0x0c,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
 
   - platform: template
     name: "Motion To Rest Time Setting"
@@ -230,13 +223,12 @@ number:
     max_value: 4294967295
     step: 1000
     set_action:
-      - uart.write: !lambda
-                    int h24_num = ((int)x >> 24) & 0xff;
-                    int h16_num = ((int)x >> 16) & 0xff;
-                    int h8_num = ((int)x >> 8) & 0xff;
-                    int l8_num = (int)x & 0xff;
-                    int crc = 0xC5 + h24_num + h16_num + h8_num + l8_num;
-                    return {0x53,0x59,0x08,0x0d,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int h24_num = ((int)x >> 24) & 0xff;
+          int h16_num = ((int)x >> 16) & 0xff;
+          int h8_num = ((int)x >> 8) & 0xff;
+          int l8_num = (int)x & 0xff;
+          int crc = 0xC5 + h24_num + h16_num + h8_num + l8_num;
+          return {0x53,0x59,0x08,0x0d,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
 
   - platform: template
     name: "Time For Entering No Person State Setting (Underlying Open Function)"
@@ -247,67 +239,66 @@ number:
     max_value: 4294967295
     step: 5000
     set_action:
-      - uart.write: !lambda
-                    int h24_num = ((int)x >> 24) & 0xff;
-                    int h16_num = ((int)x >> 16) & 0xff;
-                    int h8_num = ((int)x >> 8) & 0xff;
-                    int l8_num = (int)x & 0xff;
-                    int crc = 0xC6 + h24_num + h16_num + h8_num + l8_num;
-                    return {0x53,0x59,0x08,0x0e,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
+      - uart.write: !lambda int h24_num = ((int)x >> 24) & 0xff;
+          int h16_num = ((int)x >> 16) & 0xff;
+          int h8_num = ((int)x >> 8) & 0xff;
+          int l8_num = (int)x & 0xff;
+          int crc = 0xC6 + h24_num + h16_num + h8_num + l8_num;
+          return {0x53,0x59,0x08,0x0e,0x00,0x04,(uint8_t)h24_num,(uint8_t)h16_num,(uint8_t)h8_num,(uint8_t)l8_num,(uint8_t)crc,0x54,0x43};
 
 text_sensor:
-- platform: custom
-  lambda: |-
-    auto my_custom_sensor = new MyCustomTextSensor();
-    App.register_component(my_custom_sensor);
-    return {my_custom_sensor->Heartbeat};
+  - platform: custom
+    lambda: |-
+      auto my_custom_sensor = new MyCustomTextSensor();
+      App.register_component(my_custom_sensor);
+      return {my_custom_sensor->Heartbeat};
 
-  text_sensors:
-    - name: "Standard Heartbeat"
-      icon: mdi:connection
+    text_sensors:
+      - name: "Standard Heartbeat"
+        icon: mdi:connection
 
-- platform: template
-  name: "Product Model"
-  id: product_mode
-  icon: mdi:information-outline
-  on_raw_value:
-    then:
-      - logger.log: text_sensor on_raw_value
+  - platform: template
+    name: "Product Model"
+    id: product_mode
+    icon: mdi:information-outline
+    on_raw_value:
+      then:
+        - logger.log: text_sensor on_raw_value
 
-- platform: template
-  name: "Product ID"
-  id: product_id
-  icon: mdi:information-outline
+  - platform: template
+    name: "Product ID"
+    id: product_id
+    icon: mdi:information-outline
 
-- platform: template
-  name: "Hardware Model"
-  id: hardware_model
-  icon: mdi:information-outline
+  - platform: template
+    name: "Hardware Model"
+    id: hardware_model
+    icon: mdi:information-outline
 
-- platform: template
-  name: "Firmware Version"
-  id: firmware_version
-  icon: mdi:information-outline
+  - platform: template
+    name: "Firmware Version"
+    id: firmware_version
+    icon: mdi:information-outline
 
-- platform: template
-  name: "Active Reporting Of Proximity"
-  id: keep_away
-  icon: mdi:walk
+  - platform: template
+    name: "Active Reporting Of Proximity"
+    id: keep_away
+    icon: mdi:walk
 
-- platform: template
-  name: "Motion Information"
-  id: motion_status
-  icon: mdi:human-greeting
+  - platform: template
+    name: "Motion Information"
+    id: motion_status
+    icon: mdi:human-greeting
 
-- platform: template
-  name: "Presence Information"
-  id: someoneExists
-  icon: "mdi:motion-sensor"
+  - platform: template
+    name: "Presence Information"
+    id: someoneExists
+    icon: "mdi:motion-sensor"
 
-- platform: template
-  name: "Static Distance"
-  id: custom_presence_of_detection
-  icon: mdi:signal-distance-variant
+  - platform: template
+    name: "Static Distance"
+    id: custom_presence_of_detection
+    icon: mdi:signal-distance-variant
 
 button:
   - platform: template
@@ -317,7 +308,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x01,0x02,0x00,0x01,0x0F,0xBF,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x01, 0x02, 0x00, 0x01, 0x0F, 0xBF, 0x54, 0x43]
 
   - platform: template
     name: "End Of Custom Mode Settings"
@@ -326,7 +318,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x05,0x0a,0x00,0x01,0x0F,0xCB,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x05, 0x0a, 0x00, 0x01, 0x0F, 0xCB, 0x54, 0x43]
 
   - platform: template
     name: "Custom Mode Query"
@@ -335,7 +328,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x05,0x89,0x00,0x01,0x0F,0x4A,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x05, 0x89, 0x00, 0x01, 0x0F, 0x4A, 0x54, 0x43]
 
   - platform: template
     name: "Existence Energy Value Inquiry"
@@ -344,7 +338,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x81,0x00,0x01,0x0F,0x45,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x81, 0x00, 0x01, 0x0F, 0x45, 0x54, 0x43]
 
   - platform: template
     name: "Motion Energy Value Inquiry"
@@ -353,7 +348,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x82,0x00,0x01,0x0F,0x46,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x82, 0x00, 0x01, 0x0F, 0x46, 0x54, 0x43]
 
   - platform: template
     name: "Static Distance Inquiry"
@@ -362,7 +358,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x83,0x00,0x01,0x0F,0x47,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x83, 0x00, 0x01, 0x0F, 0x47, 0x54, 0x43]
 
   - platform: template
     name: "Motion Distance Inquiry"
@@ -371,7 +368,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x84,0x00,0x01,0x0F,0x48,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x84, 0x00, 0x01, 0x0F, 0x48, 0x54, 0x43]
 
   - platform: template
     name: "Existence Judgment Threshold Inquiry"
@@ -380,7 +378,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x88,0x00,0x01,0x0F,0x4C,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x88, 0x00, 0x01, 0x0F, 0x4C, 0x54, 0x43]
 
   - platform: template
     name: "Motion Trigger Threshold Inquiry"
@@ -389,7 +388,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x89,0x00,0x01,0x0F,0x4D,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x89, 0x00, 0x01, 0x0F, 0x4D, 0x54, 0x43]
 
   - platform: template
     name: "Motion To Rest Time Setting Query"
@@ -398,7 +398,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x8d,0x00,0x01,0x0F,0x51,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x8d, 0x00, 0x01, 0x0F, 0x51, 0x54, 0x43]
 
   - platform: template
     name: "Time For Entering No Person State Inquiry"
@@ -407,8 +408,9 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x08,0x8e,0x00,0x01,0x0F,0x52,0x54,0x43]
-  
+        - uart.write:
+            [0x53, 0x59, 0x08, 0x8e, 0x00, 0x01, 0x0F, 0x52, 0x54, 0x43]
+
   - platform: template
     name: "Proximity Inquiry"
     icon: mdi:cog
@@ -416,7 +418,8 @@ button:
     on_press:
       then:
         - logger.log: Button Pressed
-        - uart.write: [0x53,0x59,0x80,0x8b,0x00,0x01,0x0F,0xc7,0x54,0x43]
+        - uart.write:
+            [0x53, 0x59, 0x80, 0x8b, 0x00, 0x01, 0x0F, 0xc7, 0x54, 0x43]
 
 switch:
   - platform: template
@@ -425,13 +428,13 @@ switch:
     icon: mdi:electric-switch
     assumed_state: true
     turn_on_action:
-      - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x01,0xB6,0x54,0x43]
+      - uart.write: [0x53, 0x59, 0x08, 0x00, 0x00, 0x01, 0x01, 0xB6, 0x54, 0x43]
       - lambda: !lambda |-
           id(keep_away).publish_state("");
           id(motion_status).publish_state("");
           id(someoneExists).publish_state("");
     turn_off_action:
-      - uart.write: [0x53,0x59,0x08,0x00,0x00,0x01,0x00,0xB5,0x54,0x43]
+      - uart.write: [0x53, 0x59, 0x08, 0x00, 0x00, 0x01, 0x00, 0xB5, 0x54, 0x43]
       - lambda: !lambda |-
           id(custom_spatial_static_value).publish_state(0.0f);
           id(custom_spatial_motion_value).publish_state(0.0f);
@@ -440,98 +443,97 @@ switch:
           id(custom_motion_speed).publish_state(0.0f);
 
 sensor:
-- platform: custom
-  lambda: |-
-    auto my_custom_sensor = new UartReadLineSensor(id(uart_bus));
-    App.register_component(my_custom_sensor);
-    return {
-      my_custom_sensor->movementSigns,
-      my_custom_sensor->inited,
-    };
-  sensors:
-    - name: "Body Movement Parameter"
-      id: movementSigns
-      icon: "mdi:human-greeting-variant"
-      device_class: "temperature"
-      state_class: "measurement"
+  - platform: custom
+    lambda: |-
+      auto my_custom_sensor = new UartReadLineSensor(id(uart_bus));
+      App.register_component(my_custom_sensor);
+      return {
+        my_custom_sensor->movementSigns,
+        my_custom_sensor->inited,
+      };
+    sensors:
+      - name: "Body Movement Parameter"
+        id: movementSigns
+        icon: "mdi:human-greeting-variant"
+        device_class: "temperature"
+        state_class: "measurement"
 
-    - name: "Initialization Status"
-      id: inited
-      icon: mdi:all-inclusive
+      - name: "Initialization Status"
+        id: inited
+        icon: mdi:all-inclusive
 
-- platform: template
-  name: "Motion Distance"
-  id: custom_moving_of_detection
-  icon: mdi:signal-distance-variant
-  on_value:
-    then:
-      # - logger.log: Custom Motion distance on_value
-      - logger.log:
+  - platform: template
+    name: "Motion Distance"
+    id: custom_moving_of_detection
+    icon: mdi:signal-distance-variant
+    on_value:
+      then:
+        # - logger.log: Custom Motion distance on_value
+        - logger.log:
             format: "Custom Motion distance on_value : %d"
             args: ["x"]
-  on_raw_value:
-    then:
-      - logger.log:
+    on_raw_value:
+      then:
+        - logger.log:
             format: "Custom Motion distance on_raw_value : %d"
             args: ["x"]
 
-- platform: template
-  name: "Existence Energy Value"
-  id: existence_value_display
-  icon: mdi:counter
+  - platform: template
+    name: "Existence Energy Value"
+    id: existence_value_display
+    icon: mdi:counter
 
-- platform: template
-  name: "Motion Energy Value"
-  id: motion_value_display
-  icon: mdi:counter
+  - platform: template
+    name: "Motion Energy Value"
+    id: motion_value_display
+    icon: mdi:counter
 
-- platform: template
-  name: "Custom Mode"
-  id: custom_mode_display
-  icon: mdi:cog
+  - platform: template
+    name: "Custom Mode"
+    id: custom_mode_display
+    icon: mdi:cog
 
-- platform: template
-  name: "Existence Judgment Threshold"
-  id: existence_judgment_display
-  icon: mdi:counter
+  - platform: template
+    name: "Existence Judgment Threshold"
+    id: existence_judgment_display
+    icon: mdi:counter
 
-- platform: template
-  name: "Motion To Rest Time"
-  id: motion_to_rest_time_display
-  icon: mdi:timeline-clock
+  - platform: template
+    name: "Motion To Rest Time"
+    id: motion_to_rest_time_display
+    icon: mdi:timeline-clock
 
-- platform: template
-  name: "Motion Trigger Threshold"
-  id: motion_trigger_threshold_display
-  icon: mdi:counter
+  - platform: template
+    name: "Motion Trigger Threshold"
+    id: motion_trigger_threshold_display
+    icon: mdi:counter
 
-- platform: template
-  name: "Time For Entering No Person State"
-  id: time_for_enter_no_person_state_display
-  icon: mdi:timeline-clock
+  - platform: template
+    name: "Time For Entering No Person State"
+    id: time_for_enter_no_person_state_display
+    icon: mdi:timeline-clock
 
-- platform: template
-  name: "Motion Distance (Proactive Reporting)"
-  id: custom_motion_distance
-  icon: mdi:signal-distance-variant
-  
-- platform: template
-  name: "Static Distance (Proactive Reporting)"
-  id: custom_static_distance
-  icon: mdi:signal-distance-variant
+  - platform: template
+    name: "Motion Distance (Proactive Reporting)"
+    id: custom_motion_distance
+    icon: mdi:signal-distance-variant
 
-- platform: template
-  name: "Existence Energy Value (Proactive Reporting)"
-  id: custom_spatial_static_value
-  icon: mdi:counter
+  - platform: template
+    name: "Static Distance (Proactive Reporting)"
+    id: custom_static_distance
+    icon: mdi:signal-distance-variant
 
-- platform: template
-  name: "Motion Energy Value (Proactive Reporting)"
-  id: custom_spatial_motion_value
-  icon: mdi:counter
+  - platform: template
+    name: "Existence Energy Value (Proactive Reporting)"
+    id: custom_spatial_static_value
+    icon: mdi:counter
 
-- platform: template
-  name: "Motion Speed"
-  id: custom_motion_speed
-  icon: mdi:run-fast
-    
+  - platform: template
+    name: "Motion Energy Value (Proactive Reporting)"
+    id: custom_spatial_motion_value
+    icon: mdi:counter
+
+  - platform: template
+    name: "Motion Speed"
+    id: custom_motion_speed
+    icon: mdi:run-fast
