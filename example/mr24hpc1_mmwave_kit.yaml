@@ -455,7 +455,6 @@ sensor:
       - name: "Body Movement Parameter"
         id: movementSigns
         icon: "mdi:human-greeting-variant"
-        device_class: "temperature"
         state_class: "measurement"
 
       - name: "Initialization Status"
