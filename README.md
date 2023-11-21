@@ -1,3 +1,8 @@
+
+**The latest project address of the kit will simplify all processes, please refer to the link here:**
+**https://github.com/limengdu/mmwave-kit-external-components/tree/main**
+
+
 # XIAO ESP32C3 accesses Home Assistant via ESPHome service
 
 <div style={{textAlign:'center'}}><img src="https://files.seeedstudio.com/wiki/homs-xiaoc3-linkstar/78.jpg" style={{width:700, height:'auto'}}/></div>
